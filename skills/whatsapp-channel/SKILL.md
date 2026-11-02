@@ -4,7 +4,7 @@ description: "Write WhatsApp Channel posts in a consistent creator, brand, schoo
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Channel

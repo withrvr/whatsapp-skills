@@ -4,7 +4,7 @@ description: "Mask or remove sensitive details before you forward, post or share
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Redact

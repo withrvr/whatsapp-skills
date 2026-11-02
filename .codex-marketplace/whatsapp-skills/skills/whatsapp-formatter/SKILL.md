@@ -4,7 +4,7 @@ description: "Convert or clean text for WhatsApp without rewriting it: ChatGPT o
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Formatter

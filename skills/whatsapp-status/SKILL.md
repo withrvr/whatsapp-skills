@@ -4,7 +4,7 @@ description: "Write WhatsApp Status updates: text status (700-character limit), 
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Status

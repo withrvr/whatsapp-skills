@@ -2,6 +2,17 @@
 
 All notable changes to this project. Versions follow [semver](https://semver.org).
 
+## 1.0.1 (2026-11-02)
+
+- README: a silent 15-second demo loop at the top (`media/demo/`): notes become a
+  message, AI formatting gets fixed, private details get masked. Rebuilt from
+  source with `media/demo/build.sh`.
+- README: test results now lead with plain counts anyone can read (out of 33 test
+  requests, `**stars**` instead of bold: 25 without the skills, 0 with; em dashes:
+  10 vs 0). The automated-check percentage stays as a labeled third row.
+- Tests: the mention check covers more names and file types and looks only at
+  files git tracks.
+
 ## 1.0.0 (2026-11-02)
 
 First release.
@@ -25,6 +36,5 @@ First release.
   them), names capitalised as given, AI and email vocabulary list, specific over vague,
   one point per message, name-only sign-offs.
 - English is the main focus; other languages are written on request.
-- Silent README demo loop (`media/demo/`), rebuilt from source with `build.sh`.
 - Pull-request-only workflow: each PR bumps the version (CI-checked) and merging
   it to `main` tags and publishes the release automatically.

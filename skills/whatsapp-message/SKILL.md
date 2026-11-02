@@ -4,7 +4,7 @@ description: "Turn a brain-dump of context into one ready-to-send WhatsApp messa
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Message
