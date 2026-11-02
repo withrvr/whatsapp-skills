@@ -76,12 +76,11 @@
     </div>
   </div>
   <div class="abs arrow" id="a2">→</div>
-  <div class="abs panel right" id="p2r"><div class="label">fixed</div>
+  <div class="abs panel right" id="p2r"><div class="label">fixed, your words kept</div>
     <div class="bubble" id="b2">
-      <div class="l">📢 <b>All-hands moved to Thu, 5 Nov, 11 am</b></div>
-      <div class="l">Questions by Wed end of day.</div>
+      <div class="l"><b>All-hands moved</b> to Thursday, 6 Nov, 11 am. Questions by Wednesday.</div>
     </div>
-    <div class="ok" id="ok2">✓ ready to paste</div>
+    <div class="ok" id="ok2" style="color: var(--amber);">⚠️ 6 Nov 2026 is a Friday. Confirm the day before sending</div>
   </div>
 </div>
 
@@ -128,7 +127,7 @@ function sceneVis(el, t, start, end) {
   const i = easeOut(prog(t, start, start + 0.35)), o = 1 - easeIn(prog(t, end - 0.35, end));
   el.style.opacity = Math.min(i, o);
 }
-const NOTES = "all hands moved fri 4pm → thu 11am, ceo travelling. same zoom link. qs by wed. from anita hr";
+const NOTES = "all hands moved fri 6 nov 4pm → thu 5 nov 11am, ceo travelling. same zoom link. qs by wed eod. from anita hr";
 
 window.render = function (t) {
   t = ((t % 15) + 15) % 15;  // seamless loop

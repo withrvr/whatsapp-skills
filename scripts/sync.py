@@ -46,7 +46,8 @@ MD_HEADER = "<!-- GENERATED from shared/references/{name} by scripts/sync.py. Ed
 PY_HEADER = "# GENERATED from shared/scripts/wa_lint.py by scripts/sync.py. Edit the source, not this copy.\n"
 
 #: What goes into the Codex package. Evals, tests and maintainer scripts stay out.
-CODEX_PATHS = [".codex-plugin", "skills", "assets", "docs", "README.md", "LICENSE"]
+CODEX_PATHS = [".codex-plugin", "skills", "assets", "docs", "media/demo/demo.gif",
+               "README.md", "CONTRIBUTING.md", "CHANGELOG.md", "LICENSE"]
 CODEX_IGNORE = shutil.ignore_patterns("evals", "__pycache__", "*.pyc", ".DS_Store")
 
 

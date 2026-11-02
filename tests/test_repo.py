@@ -79,8 +79,8 @@ class Manifests(unittest.TestCase):
         self.assertTrue((ROOT / self.codex["interface"]["composerIcon"]).is_file())
 
     def test_every_json_parses(self):
-        for path in ROOT.rglob("*.json"):
-            if "evals-workspace" in path.parts or ".git" in path.parts:
+        for path in shipped_files():
+            if path.suffix != ".json":
                 continue
             with self.subTest(path=str(path.relative_to(ROOT))):
                 json.loads(path.read_text(encoding="utf-8"))
@@ -148,7 +148,7 @@ class Docs(unittest.TestCase):
         names = ["serge" "bulaev", "linked" "in", "x" "-skills", "pub" "lora", "api" "fy"]
         banned = re.compile("|".join(r"\b" + n + r"\b" for n in names), re.I)
         for path in shipped_files():
-            if "tests" in path.parts:
+            if "tests" in path.relative_to(ROOT).parts:
                 continue
             if path.suffix not in {".md", ".json", ".py", ".yml", ".svg", ".txt", ".html", ".js", ".sh", ""}:
                 continue
@@ -158,7 +158,8 @@ class Docs(unittest.TestCase):
     def test_no_markdown_bold_in_whatsapp_text_blocks_anywhere(self):
         """Any ```text block in any doc is a WhatsApp message and must not leak Markdown bold."""
         block = re.compile(r"^```text\n(.*?)\n```", re.S | re.M)
-        for path in list(ROOT.glob("docs/*.md")) + [ROOT / "README.md"] + list((ROOT / "skills").glob("*/SKILL.md")):
+        shipped = set(shipped_files())
+        for path in [p for p in list(ROOT.glob("docs/*.md")) + [ROOT / "README.md"] + list((ROOT / "skills").glob("*/SKILL.md")) if p in shipped]:
             for body in block.findall(path.read_text(encoding="utf-8")):
                 self.assertNotRegex(body, r"\*\*\S", f"{path.name}: {body[:60]}")
 
@@ -171,9 +172,10 @@ class NoDashes(unittest.TestCase):
     RULE_LINE = re.compile(r"em dash|en dash|dashes|wa_lint|[`'\"(]\s*[—–]|[—–]\s*[`'\")]|2–4|10 am – 6 pm", re.I)
 
     def test_skill_and_shared_text(self):
-        files = list((ROOT / "skills").rglob("*.md")) + list((ROOT / "shared").rglob("*.md"))
-        files += [ROOT / "README.md"] + list((ROOT / "docs").glob("*.md"))
-        for path in files:
+        for path in shipped_files():
+            rel = path.relative_to(ROOT)
+            if path.suffix != ".md" or not (rel.parts[0] in ("skills", "shared", "docs") or str(rel) == "README.md"):
+                continue
             text = re.sub(r"^```markdown\n.*?^```", "", path.read_text(encoding="utf-8"), flags=re.S | re.M)
             for n, line in enumerate(text.splitlines(), 1):
                 if ("—" in line or "–" in line) and not self.RULE_LINE.search(line):
@@ -181,8 +183,8 @@ class NoDashes(unittest.TestCase):
 
     def test_no_dash_in_any_message_block(self):
         block = re.compile(r"^```text\n(.*?)\n```", re.S | re.M)
-        for path in list(ROOT.rglob("*.md")):
-            if {".git", "evals-workspace", ".codex-marketplace"} & set(path.parts):
+        for path in shipped_files():
+            if path.suffix != ".md" or ".codex-marketplace" in path.relative_to(ROOT).parts:
                 continue
             for body in block.findall(path.read_text(encoding="utf-8")):
                 self.assertNotRegex(body, "[—–]", f"{path.relative_to(ROOT)}: {body[:60]}")

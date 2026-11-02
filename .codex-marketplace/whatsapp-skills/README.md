@@ -23,7 +23,7 @@
 ## You type this
 
 ```
-msg for the team group: all hands moved from fri 4pm to thu 11am, ceo travelling.
+msg for the team group: all hands moved from fri 6 nov 4pm to thu 5 nov 11am, ceo travelling.
 same zoom link https://zoom.us/j/8812345678. questions by wed eod. from anita hr
 ```
 

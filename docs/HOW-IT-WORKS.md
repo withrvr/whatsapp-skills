@@ -13,22 +13,13 @@ For installing see [INSTALL.md](INSTALL.md); for everyday use see [USAGE.md](USA
 
 ## Voice rules
 
-Every skill follows these automatically, and the built-in checker enforces the
-mechanical ones before a message reaches you:
+Every skill follows a short list of voice rules, and the built-in checker
+enforces the mechanical ones before a message reaches you: no em or en dashes,
+names capitalised as given, no AI or email vocabulary, specific beats vague, one
+point per message, emoji as labels, name-only sign-offs, and more.
 
-1. **No em dashes (—) or en dashes (–). Ever.** They're the quickest giveaway of
-   AI text in a chat. Commas, full stops, colons, "to" and new lines instead.
-2. **Names capitalised exactly as given.** "priya" in your notes becomes "Priya" in the message.
-3. **No AI or email vocabulary:** leverage, streamline, delve, foster, robust,
-   "I hope this message finds you well", "Kindly do the needful", "Please find attached".
-4. **Specific beats vague.** "₹14,200" not "a big amount", "Thu, 5 Nov, 11 am" not "later this week".
-5. **One point per message.** One ask, one piece of news.
-6. **Length fits the message type.** A reply is a few lines, a status is one glance,
-   an announcement fits one phone screen.
-7. **Sounds typed, not written.** Short sentences, contractions, no "Furthermore", no semicolons in casual chats.
-8. **Emoji are labels, not decoration**, and never more than your audience uses.
-9. **No shouting** (whole lines in capitals) and no hashtags (they don't work on WhatsApp).
-10. **Sign-off is just your name on the last line.** Not "- Name", which WhatsApp turns into a bullet.
+The full, current list lives in one place, the file the skills themselves read:
+[`shared/references/writing-rules.md`](../shared/references/writing-rules.md#voice-rules).
 
 ## Languages
 
@@ -73,7 +64,8 @@ skills/<name>/            one folder per skill, self-contained (spec-compliant)
 skills/whatsapp-catchup/scripts/wa_chat.py   chat-export parser
 shared/                   single source for everything copied into skills
 scripts/                  sync, validate, evals, zip builder
-docs/                     install, usage, scenario catalog
+docs/                     install, usage, scenario catalog, how it works
+media/demo/               README demo loop: demo.html, render.js, build.sh
 .claude-plugin/           Claude plugin + marketplace manifests
 .codex-plugin/, .agents/  OpenAI (Codex / ChatGPT) plugin + marketplace
 .claude/skills/           symlinks so Claude Code finds the skills on clone

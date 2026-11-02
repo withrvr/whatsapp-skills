@@ -15,6 +15,10 @@ All notable changes to this project. Versions follow [semver](https://semver.org
   `**stars**` instead of bold: 25 without the skills, 0 with; em dashes: 10 vs 0).
 - Tests: the mention check covers more names and file types and looks only at
   files git tracks.
+- The demo and the README example no longer show details the notes didn't give, and
+  the demo's formatter scene flags a wrong weekday instead of guessing the date.
+- The Codex/ChatGPT package now includes the demo GIF, CONTRIBUTING.md and
+  CHANGELOG.md its README links to. Repo-scanning tests check only tracked files.
 
 ## 1.0.0 (2026-11-02)
 

@@ -1,7 +1,7 @@
 // node render.js stills t1 t2 ...   -> stills/t_<t>.png
 // Env: HTML (composition file, default demo.html next to this script),
 //      W / H (viewport, default 1280x720), OUT (output folder, default this folder)
-// node render.js full <fps> <duration> [fromFrame] -> frames/0000.png ...
+// node render.js full [fps=30] [duration=15] [fromFrame=0] -> frames/0000.png ...
 const { chromium } = require('playwright');
 const path = require('path');
 (async () => {
@@ -21,7 +21,7 @@ const path = require('path');
     require('fs').mkdirSync(path.resolve(OUT, 'stills'), { recursive: true });
     for (const t of rest.map(Number)) await shot(t, path.resolve(OUT, 'stills', `t_${t.toFixed(2)}.png`));
   } else {
-    const fps = Number(rest[0] || 30), dur = Number(rest[1] || 22);
+    const fps = Number(rest[0] || 30), dur = Number(rest[1] || 15);
     const n = Math.round(fps * dur);
     const from = Number(rest[2] || 0);
     for (let f = from; f < n; f++) {
