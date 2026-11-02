@@ -7,9 +7,12 @@ All notable changes to this project. Versions follow [semver](https://semver.org
 - README: a silent 15-second demo loop at the top (`media/demo/`): notes become a
   message, AI formatting gets fixed, private details get masked. Rebuilt from
   source with `media/demo/build.sh`.
-- README: test results now lead with plain counts anyone can read (out of 33 test
-  requests, `**stars**` instead of bold: 25 without the skills, 0 with; em dashes:
-  10 vs 0). The automated-check percentage stays as a labeled third row.
+- README rewritten as a short landing page: promise, demo, a before and after,
+  install, the 11 skills and why it beats asking AI directly. The detail (voice
+  rules, checker, languages, test results, layout, development) moved to
+  `docs/HOW-IT-WORKS.md`.
+- Test results lead with plain counts anyone can read (out of 33 test requests,
+  `**stars**` instead of bold: 25 without the skills, 0 with; em dashes: 10 vs 0).
 - Tests: the mention check covers more names and file types and looks only at
   files git tracks.
 

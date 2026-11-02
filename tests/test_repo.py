@@ -111,7 +111,7 @@ class Generated(unittest.TestCase):
 
 class Docs(unittest.TestCase):
     DOCS = ["README.md", "CONTRIBUTING.md", "AGENTS.md", "CHANGELOG.md", "docs/INSTALL.md",
-            "docs/USAGE.md", "docs/SCENARIOS.md"]
+            "docs/USAGE.md", "docs/SCENARIOS.md", "docs/HOW-IT-WORKS.md"]
 
     def test_readme_lists_every_skill(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
