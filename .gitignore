@@ -17,12 +17,7 @@ venv/
 # drafts people keep next to the repo
 *.local.md
 
-# launch video build files (media/launch/build.sh)
-media/launch/frames/
-media/launch/stills/
-media/launch/audio.wav
-media/launch/poster.png
-media/launch/palette.png
+# README demo build files (media/demo/build.sh)
 media/demo/frames/
 media/demo/stills/
 media/demo/palette.png

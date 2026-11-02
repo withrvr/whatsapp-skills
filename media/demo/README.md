@@ -11,8 +11,16 @@ seconds each, landscape so it fits the GitHub page.
 |---|---|
 | `demo.gif` | The loop, 800 px wide, 12 fps |
 | `demo.html` | The composition: every frame is a pure function of time |
-| `build.sh` | Rebuilds `demo.gif` (uses `../launch/render.js`) |
+| `render.js` | Captures each frame with Playwright |
+| `build.sh` | Rebuilds `demo.gif` in one command |
 
 All names, numbers and links are the repo's own fictional example data.
 
-The LinkedIn launch video, with sound, lives in [`../launch/`](../launch/).
+## Rebuild after a change
+
+```bash
+./media/demo/build.sh
+```
+
+Needs Node 22 with Playwright (Chromium), ffmpeg, and the Inter and Noto Color
+Emoji fonts.

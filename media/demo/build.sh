@@ -4,7 +4,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p frames
-HTML="$PWD/demo.html" W=1280 H=720 OUT="$PWD" node ../launch/render.js full 30 15
+node render.js full 30 15
 ffmpeg -loglevel error -y -framerate 30 -i frames/%04d.png \
   -vf "fps=12,scale=800:-1:flags=lanczos,palettegen=max_colors=128:stats_mode=diff" palette.png
 ffmpeg -loglevel error -y -framerate 30 -i frames/%04d.png -i palette.png \

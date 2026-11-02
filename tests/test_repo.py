@@ -20,6 +20,21 @@ check_version = load_module("check_version", ROOT / "scripts" / "check_version.p
 WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
 
 
+def shipped_files():
+    """Files that ship: what git tracks, or every file when this isn't a git checkout.
+    Local, untracked work (drafts, eval runs) is not part of the repo."""
+    import subprocess
+    try:
+        out = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+        files = [ROOT / line for line in out.splitlines() if line]
+        if files:
+            return [p for p in files if p.is_file() and not p.is_symlink()]
+    except (OSError, subprocess.CalledProcessError):
+        pass
+    skip = {".git", "evals-workspace", "dist"}
+    return [p for p in ROOT.rglob("*") if p.is_file() and not skip & set(p.parts)]
+
+
 def load(rel):
     return json.loads((ROOT / rel).read_text(encoding="utf-8"))
 
@@ -129,11 +144,13 @@ class Docs(unittest.TestCase):
         self.assertIn(f"## {version} ", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
 
     def test_no_mentions_of_other_bundles(self):
-        banned = re.compile(r"sergebulaev|\blinkedin-skills\b|\bx-skills\b|\bpublora\b|\bapify\b", re.I)
-        for path in ROOT.rglob("*"):
-            if not path.is_file() or {".git", "evals-workspace", "dist", "tests"} & set(path.parts):
+        # Names are split so this file never contains the words it bans.
+        names = ["serge" "bulaev", "linked" "in", "x" "-skills", "pub" "lora", "api" "fy"]
+        banned = re.compile("|".join(r"\b" + n + r"\b" for n in names), re.I)
+        for path in shipped_files():
+            if "tests" in path.parts:
                 continue
-            if path.suffix not in {".md", ".json", ".py", ".yml", ".svg", ".txt", ""}:
+            if path.suffix not in {".md", ".json", ".py", ".yml", ".svg", ".txt", ".html", ".js", ".sh", ""}:
                 continue
             with self.subTest(path=str(path.relative_to(ROOT))):
                 self.assertIsNone(banned.search(path.read_text(encoding="utf-8", errors="ignore")))

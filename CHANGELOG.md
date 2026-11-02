@@ -25,7 +25,6 @@ First release.
   them), names capitalised as given, AI and email vocabulary list, specific over vague,
   one point per message, name-only sign-offs.
 - English is the main focus; other languages are written on request.
-- Launch video for LinkedIn (`media/launch/`, 22 s square, with sound) and a silent
-  README demo loop (`media/demo/`), both rebuilt from source with their `build.sh`.
+- Silent README demo loop (`media/demo/`), rebuilt from source with `build.sh`.
 - Pull-request-only workflow: each PR bumps the version (CI-checked) and merging
   it to `main` tags and publishes the release automatically.

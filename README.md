@@ -18,8 +18,7 @@
 </p>
 
 <p align="center">
-  <img src="media/demo/demo.gif" alt="Demo: messy notes become a WhatsApp message, AI formatting gets fixed, private details get masked" width="800"><br>
-  <sub>🎬 <a href="media/launch/launch.mp4">Launch video with sound</a> (22 seconds)</sub>
+  <img src="media/demo/demo.gif" alt="Demo: messy notes become a WhatsApp message, AI formatting gets fixed, private details get masked" width="800">
 </p>
 
 ---
