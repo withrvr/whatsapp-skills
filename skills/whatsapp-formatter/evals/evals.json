@@ -1,0 +1,129 @@
+{
+  "skill_name": "whatsapp-formatter",
+  "evals": [
+    {
+      "id": 1,
+      "name": "convert-markdown-table",
+      "prompt": "make this whatsapp ready:\n\n## Book Club 📚\n**Book:** *Atomic Habits*\n**When:** Sat, 21 Nov, 5 PM\n**Where:** [Cafe Mocha](https://maps.app.goo.gl/MoCha5)\n\n| Chapter | Host |\n|---|---|\n| 1-5 | Asha |\n| 6-10 | Raj |",
+      "expected_output": "The same content in WhatsApp formatting: bold title line, single-asterisk labels, 'Cafe Mocha: link', table as one line per row, words unchanged.",
+      "files": [],
+      "assertions": [
+        "No Markdown remains (no **, ##, [](), or pipes)",
+        "The map link appears exactly",
+        "Table rows become lines with Asha and Raj",
+        "Words are not rewritten"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "contains",
+          "value": "https://maps.app.goo.gl/MoCha5"
+        },
+        {
+          "type": "icontains",
+          "value": "Asha"
+        },
+        {
+          "type": "icontains",
+          "value": "Raj"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\|"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "message",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "polish-keep-voice",
+      "prompt": "fix typos in this whatsapp message but keep my style: 'guys tommorow's meetng is cancled, we'll do it on monday insted. pls inform others 🙏'",
+      "expected_output": "Same message with typos fixed (tomorrow's, meeting, cancelled/canceled, instead), 'pls' and 🙏 kept, same length.",
+      "files": [],
+      "assertions": [
+        "Typos fixed",
+        "Keeps 'pls' and the 🙏 emoji",
+        "Same length and casual voice"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "icontains",
+          "value": "tomorrow"
+        },
+        {
+          "type": "icontains",
+          "value": "meeting"
+        },
+        {
+          "type": "contains_any",
+          "values": [
+            "cancelled",
+            "canceled"
+          ]
+        },
+        {
+          "type": "icontains",
+          "value": "instead"
+        },
+        {
+          "type": "contains",
+          "value": "🙏"
+        },
+        {
+          "type": "icontains",
+          "value": "pls"
+        },
+        {
+          "type": "max_chars",
+          "value": 160
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "check-mode-report",
+      "prompt": "check this status before I post: 'Big Diwali sale on Friday, 7 Nov! **40% off** everything at www.urbanthreads.in'",
+      "expected_output": "A report (not a rewrite) listing: 7 Nov 2026 is a Saturday, **40% off** shows asterisks (use *40% off*), and the link needs https://.",
+      "files": [],
+      "assertions": [
+        "Flags that 7 Nov 2026 is a Saturday",
+        "Flags the Markdown double asterisks",
+        "Flags the missing https://"
+      ],
+      "checks": [
+        {
+          "type": "response_regex",
+          "pattern": "saturday|\\bsat\\b",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "asterisk|\\*\\*",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "https://",
+          "flags": "i"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install dev requirements
+        run: python -m pip install --quiet -r requirements-dev.txt
+      - name: Generated files are in sync
+        run: python scripts/sync.py --check
+      - name: Skills meet the spec and repo conventions
+        run: python scripts/validate.py
+      - name: Offline test suite
+        run: python -m unittest discover -s tests -v
+      - name: Zips build
+        run: python scripts/build_zips.py --out dist
+
+  version:
+    name: PR ships a new version
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Version is bumped and has a CHANGELOG entry
+        run: python scripts/check_version.py --base "origin/${{ github.base_ref }}"
+
+  spec:
+    name: Official skills-ref validator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install skills-ref
+        run: python -m pip install --quiet "skills-ref @ git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
+      - name: Validate every skill
+        run: |
+          for skill in skills/*/; do
+            skills-ref validate "$skill"
+          done

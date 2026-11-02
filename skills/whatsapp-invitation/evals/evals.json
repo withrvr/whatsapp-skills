@@ -1,0 +1,138 @@
+{
+  "skill_name": "whatsapp-invitation",
+  "evals": [
+    {
+      "id": 1,
+      "name": "kids-birthday-rsvp",
+      "prompt": "invite for my daughter Myra's 7th birthday, unicorn theme, sun 13 dec 5-8pm, party hall at Prestige Shantiniketan clubhouse, Whitefield. rsvp to me (Divya) by wed 9 dec. warm and fun",
+      "expected_output": "A warm, fun invite with Myra's name, the theme, Sun 13 Dec 5-8 pm, the venue, and an RSVP line to Divya by Wed 9 Dec.",
+      "files": [],
+      "assertions": [
+        "Mentions Myra turning 7 and the unicorn theme",
+        "Date Sun, 13 Dec and 5-8 pm",
+        "Venue as given",
+        "RSVP to Divya by Wed, 9 Dec"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "icontains",
+          "value": "Myra"
+        },
+        {
+          "type": "regex",
+          "pattern": "sun(day)?,? 13 dec",
+          "flags": "i"
+        },
+        {
+          "type": "regex",
+          "pattern": "wed(nesday)?,? 9 dec",
+          "flags": "i"
+        },
+        {
+          "type": "icontains",
+          "value": "Divya"
+        },
+        {
+          "type": "icontains",
+          "value": "Shantiniketan"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "invitation",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "griha-pravesh-hindi",
+      "prompt": "griha pravesh invitation in hindi (devanagari script), from Verma parivar, ravivar 29 nov subah 9 baje havan, uske baad bhojan, address 45 Ashok Vihar Delhi",
+      "expected_output": "A respectful invitation in Devanagari Hindi with the date, 9 am havan, bhojan after, the address, and the Verma family sign-off.",
+      "files": [],
+      "assertions": [
+        "Written in Devanagari",
+        "Has 29 Nov (Sunday) and 9 am havan",
+        "Has the address 45 Ashok Vihar, Delhi",
+        "Signed by the Verma family"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "script",
+          "value": "devanagari",
+          "min": 40
+        },
+        {
+          "type": "regex",
+          "pattern": "29"
+        },
+        {
+          "type": "regex",
+          "pattern": "45"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "invitation",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "reminder-weekday-trap",
+      "prompt": "wedding reminder for family group: sangeet tomorrow, friday 12 dec 7pm at Taj Lands End, mumbai. map https://maps.app.goo.gl/TajLE1",
+      "expected_output": "A short reminder with the map link exactly. 12 Dec 2026 is a Saturday, so the skill flags the Friday/12 Dec mismatch instead of repeating it as fact.",
+      "files": [],
+      "assertions": [
+        "The map link appears exactly",
+        "The mismatch (12 Dec is a Saturday) is flagged",
+        "The reminder is short"
+      ],
+      "checks": [
+        {
+          "type": "contains",
+          "value": "https://maps.app.goo.gl/TajLE1"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "saturday|\\bsat\\b|doesn.t match|mismatch|not a friday|isn.t a friday",
+          "flags": "i"
+        },
+        {
+          "type": "max_chars",
+          "value": 500
+        },
+        {
+          "type": "lint_clean",
+          "kind": "invitation",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    }
+  ]
+}

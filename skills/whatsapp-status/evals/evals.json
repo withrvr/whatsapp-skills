@@ -1,0 +1,129 @@
+{
+  "skill_name": "whatsapp-status",
+  "evals": [
+    {
+      "id": 1,
+      "name": "bakery-closed",
+      "prompt": "whatsapp status for my bakery: closed tomorrow (tue 10 nov) for diwali, back wed 11 nov. short",
+      "expected_output": "A one-glance text status: closed Tue 10 Nov for Diwali, back Wed 11 Nov.",
+      "files": [],
+      "assertions": [
+        "Says closed Tue, 10 Nov for Diwali",
+        "Says back/open Wed, 11 Nov",
+        "Under 200 characters"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "regex",
+          "pattern": "wed(nesday)?,? 11 nov",
+          "flags": "i"
+        },
+        {
+          "type": "max_chars",
+          "value": 200
+        },
+        {
+          "type": "lint_clean",
+          "kind": "status",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "milestone-personal",
+      "prompt": "status: I passed my CA final exam!! after 3 attempts. thank my parents. not cheesy",
+      "expected_output": "A short, sincere personal status about passing CA Final after 3 attempts, thanking parents, without clichés.",
+      "files": [],
+      "assertions": [
+        "Mentions CA Final and the 3 attempts",
+        "Thanks parents",
+        "Short and not cheesy"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "regex",
+          "pattern": "\\bCA\\b"
+        },
+        {
+          "type": "regex",
+          "pattern": "3|three|third",
+          "flags": "i"
+        },
+        {
+          "type": "max_chars",
+          "value": 220
+        },
+        {
+          "type": "lint_clean",
+          "kind": "status",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "three-slides",
+      "prompt": "3 status slides for my yoga studio's new morning batch: starts mon 23 nov, 6:30-7:30am, ₹2,500/month, first class free, reply to book",
+      "expected_output": "Exactly three labeled status blocks: hook, details (Mon 23 Nov, 6:30-7:30 am, ₹2,500/month), and the free first class + reply-to-book CTA.",
+      "files": [],
+      "assertions": [
+        "Three separate labeled status blocks",
+        "Details exact: Mon 23 Nov, 6:30-7:30 am, ₹2,500/month",
+        "Ends with a reply-to-book call to action"
+      ],
+      "checks": [
+        {
+          "type": "message_count",
+          "min": 3,
+          "max": 3
+        },
+        {
+          "type": "regex",
+          "pattern": "mon(day)?,? 23 nov",
+          "flags": "i"
+        },
+        {
+          "type": "contains",
+          "value": "2,500"
+        },
+        {
+          "type": "regex",
+          "pattern": "reply",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "status",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    }
+  ]
+}

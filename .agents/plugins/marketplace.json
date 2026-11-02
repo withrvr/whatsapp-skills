@@ -1,0 +1,20 @@
+{
+  "name": "whatsapp-skills",
+  "interface": {
+    "displayName": "WhatsApp Skills"
+  },
+  "plugins": [
+    {
+      "name": "whatsapp-skills",
+      "source": {
+        "source": "local",
+        "path": "./.codex-marketplace/whatsapp-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
