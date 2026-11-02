@@ -4,7 +4,7 @@ description: "Write WhatsApp business and marketing messages for a shop, small b
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Promotion

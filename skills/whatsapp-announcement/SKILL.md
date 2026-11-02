@@ -4,7 +4,7 @@ description: "Write a WhatsApp group, community or broadcast announcement from n
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Announcement

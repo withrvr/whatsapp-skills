@@ -16,3 +16,8 @@ venv/
 
 # drafts people keep next to the repo
 *.local.md
+
+# README demo build files (media/demo/build.sh)
+media/demo/frames/
+media/demo/stills/
+media/demo/palette.png

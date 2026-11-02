@@ -2,6 +2,24 @@
 
 All notable changes to this project. Versions follow [semver](https://semver.org).
 
+## 1.0.1 (2026-11-02)
+
+- README: a silent 15-second demo loop at the top (`media/demo/`): notes become a
+  message, AI formatting gets fixed, private details get masked. Rebuilt from
+  source with `media/demo/build.sh`.
+- README rewritten as a short landing page: promise, demo, a before and after,
+  install, the 11 skills and why it beats asking AI directly. The detail (voice
+  rules, checker, languages, test results, layout, development) moved to
+  `docs/HOW-IT-WORKS.md`.
+- Test results lead with plain counts anyone can read (out of 33 test requests,
+  `**stars**` instead of bold: 25 without the skills, 0 with; em dashes: 10 vs 0).
+- Tests: the mention check covers more names and file types and looks only at
+  files git tracks.
+- The demo and the README example no longer show details the notes didn't give, and
+  the demo's formatter scene flags a wrong weekday instead of guessing the date.
+- The Codex/ChatGPT package now includes the demo GIF, CONTRIBUTING.md and
+  CHANGELOG.md its README links to. Repo-scanning tests check only tracked files.
+
 ## 1.0.0 (2026-11-02)
 
 First release.

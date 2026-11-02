@@ -4,7 +4,7 @@ description: "Create WhatsApp invitations and follow-ups: weddings (haldi, mehen
 license: MIT
 metadata:
   author: withrvr
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # WhatsApp Invitation
