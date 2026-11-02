@@ -2,6 +2,12 @@
 
 ## Why
 
+## Version
+
+- [ ] Bumped `version` in `.claude-plugin/plugin.json` to: <!-- e.g. 1.1.0 -->
+- [ ] Ran `python3 scripts/sync.py`
+- [ ] Added the `CHANGELOG.md` entry
+
 ## Checks
 
 - [ ] `python3 scripts/sync.py --check`

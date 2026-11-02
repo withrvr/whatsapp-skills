@@ -14,7 +14,7 @@ Dear Parents, the Parent-Teacher Meeting is on *Sat, 14 Nov, 9 am to 12 noon*. P
 
 📝 *Also:* Maths unit test on *Wed, 18 Nov*, chapters 4 to 6.
 
-– Mrs. Fernandes, Class Teacher
+Mrs. Fernandes, Class Teacher
 ```
 
 ## 2. Society alert: water cut
@@ -29,7 +29,7 @@ The overhead tanks are being cleaned, so there will be no water supply in any wi
 Lifts and power are not affected.
 
 📞 Maintenance office: 022 2654 1100
-– Rakesh, Secretary
+Rakesh, Secretary
 ```
 
 ## 3. College batch: study material share
@@ -53,7 +53,7 @@ Notes:
 
 ## 4. Office: holiday + timings, light formatting
 
-**Brief:** *office whatsapp group: office closed thu 12 nov for diwali (hmm no its on 8 nov this year?) — actually closed mon 9 nov and tue 10 nov, reopens wed 11 nov 9:30. for urgent IT issues call Sameer +91 98200 11223. Shubh Deepavali*
+**Brief:** *office whatsapp group: office closed thu 12 nov for diwali (hmm no its on 8 nov this year?), actually closed mon 9 nov and tue 10 nov, reopens wed 11 nov 9:30. for urgent IT issues call Sameer +91 98200 11223. Shubh Deepavali*
 
 ```text
 🪔 *Office closed Mon, 9 Nov and Tue, 10 Nov*
@@ -70,7 +70,7 @@ Notes:
 
 ## 5. Fundraiser in a residents' group, Hinglish
 
-**Brief:** *hinglish, society group. guard Ramesh bhaiya's son had accident, need help for hospital bills. any amount. upi greenvalleyrwa@sbi (shows Green Valley RWA). collect till sun 15 nov. accounts will be shared in group. – Priya, RWA*
+**Brief:** *hinglish, society group. guard Ramesh bhaiya's son had accident, need help for hospital bills. any amount. upi greenvalleyrwa@sbi (shows Green Valley RWA). collect till sun 15 nov. accounts will be shared in group. from Priya, RWA*
 
 ```text
 🙏 *Ramesh bhaiya ke bete ke liye help*
@@ -82,7 +82,7 @@ Hamare guard Ramesh bhaiya ke bete ka accident hua hai aur hospital ka kharcha k
 📅 *Kab tak:* Sun, 15 Nov
 
 Saare contributions ka hisaab isi group mein share kiya jayega.
-– Priya, RWA
+Priya, RWA
 ```
 
 ## 6. Coaching class: test moved

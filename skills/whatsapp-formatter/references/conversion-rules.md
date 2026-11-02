@@ -24,6 +24,13 @@
 | Footnotes `[^1]` | inline "(source: …)" | no |
 | Emoji shortcodes `:tada:` | the emoji 🎉 | no |
 
+## Dashes (all modes, even convert)
+
+Em dashes (—) and en dashes (–) are removed in every mode, because they mark text as
+AI-written. `--fix` does it: `2–4` → `2-4`, `10 am – 6 pm` → `10 am to 6 pm`,
+a dash starting a sign-off line is dropped, any other dash becomes a comma.
+Re-read the sentence after: sometimes a full stop or colon reads better than the comma.
+
 ## HTML → WhatsApp
 
 `<b>`/`<strong>` → `*x*` · `<i>`/`<em>` → `_x_` · `<s>`/`<del>` → `~x~` ·
@@ -38,7 +45,7 @@
 | "I am writing to inform you that…" | Start with the information |
 | "Please find attached…" | "Attached: [what]" |
 | "Kindly revert at the earliest." | "Please reply by [time]." |
-| "Thanks & Regards, Name, Title, Company, phone…" | "– Name" (+ role if it matters) |
+| "Thanks & Regards, Name, Title, Company, phone…" | The name on its own last line (+ role if it matters) |
 | Long paragraphs | 1-3 line blocks |
 | Subject line | Bold headline line |
 

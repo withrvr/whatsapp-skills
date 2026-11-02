@@ -27,7 +27,7 @@ https://maps.app.goo.gl/IjKl
 https://maps.app.goo.gl/EfGh
 
 Your presence and blessings will make the celebrations complete. 🙏
-– The Sharma family
+The Sharma family
 ```
 
 Notes:
@@ -49,7 +49,7 @@ Come join the jungle party for games, cake and lots of fun.
 Please let me know by *Wed, 25 Nov* if your little one can come, so we can plan the return gifts.
 
 See you there! 🎉
-– Kriti (Aarav's mom)
+Kriti (Aarav's mom)
 ```
 
 ## 3. Office year-end party
@@ -69,7 +69,7 @@ It's been a big year. Let's celebrate together!
 📝 Please fill the headcount form by *Fri, 11 Dec*:
 https://forms.gle/Party26
 
-– People Team
+People Team
 ```
 
 ## 4. Satyanarayan Pooja, Hindi
@@ -88,7 +88,7 @@ https://forms.gle/Party26
 📍 B-42, शांति नगर, इंदौर
 
 आपकी उपस्थिति हमारे लिए आशीर्वाद होगी।
-– गुप्ता परिवार
+गुप्ता परिवार
 ```
 
 ## 5. Reunion, casual, Hinglish

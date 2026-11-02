@@ -16,7 +16,7 @@ fill a slot with an invented value.
 📝 [What to bring / prepare]
 
 [Action + deadline, e.g. "Reply here if you can't make it."]
-– [Name, role]
+[Name, role]
 ```
 Watch: agenda in one line; for online meetings put ID and passcode in `` `inline code` `` on their own lines.
 
@@ -104,8 +104,8 @@ Watch: label every link; suggest clean PDF names in Notes; mention if links need
 
 [One warm line.]
 
-1. [Name] – [detail]
-2. [Name] – [detail]
+1. [Name]: [detail]
+2. [Name]: [detail]
 
 [Next step for selected people + deadline.]
 [One line for those not selected, if appropriate.]

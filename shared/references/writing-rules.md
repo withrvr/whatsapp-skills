@@ -49,27 +49,53 @@ tired of explaining it twice. They give you the context once. You give back the
   medical detail in a society group, someone else's phone number: drop it and
   say so in Notes.
 
-## WhatsApp voice
+## Voice rules
 
-- Write like a person typing on a phone, not a letter or an email.
-- Key info first. One ask per message, stated plainly, with its deadline.
-- Short sentences. 1-3 lines per paragraph. Contractions unless the tone is formal.
-- Greeting that fits the audience (`message-dials.md`); skip it for a quick reply in an ongoing chat.
-- End on the action or a clean line. "Let me know if you have any questions" only when questions are actually expected.
-- Keep the user's own phrases, nicknames and in-jokes when they gave them.
+Every message follows these. They are what makes a message read as typed by a
+person, not generated. Break one only when the user's own words do.
 
-## Phrases that make it read as AI-written or a pasted email
+1. **No em dashes (—) or en dashes (–). Ever.** They are the most recognisable
+   sign of AI text in a chat. Use a comma, full stop, colon, "to" (for ranges:
+   "10 am to 6 pm") or a new line. A plain hyphen is fine inside words and
+   number ranges ("2-4", "well-known"). `wa_lint.py` treats any dash as an error.
+2. **Capitalise names exactly as given.** People, places, companies, brands
+   (Priya, HubSpot, Lodha Amara). A lowercase name reads as careless or rude.
+   Lowercase sentence starts are fine in casual chats; names inside never are.
+3. **No AI vocabulary or email phrases** (list below).
+4. **Specific beats vague.** "₹14,200" not "a big amount", "Thu, 5 Nov, 11 am"
+   not "later this week", "15 minutes" not "shortly". Use the user's numbers.
+5. **One point per message.** One ask, one piece of news. A second topic gets a
+   second message.
+6. **Length fits the message type** (`message-dials.md`): a reply is usually
+   1-3 lines, a status one glance, an announcement fits a phone screen.
+7. **Sound typed, not written.** Short sentences, contractions unless formal, no
+   semicolons in casual chats, no "Furthermore / Moreover / Additionally".
+8. **No hollow openers or closers.** No "I hope this message finds you well",
+   no "Let me know if you have any questions" unless questions are expected. End
+   on the action or a clean line.
+9. **No rhetorical templates:** "It's not just X, it's Y", "Here's the thing:",
+   "The best part?", rule-of-three padding, the same rhythm on every line.
+10. **Emoji are labels, not decoration**, and never more than the audience uses.
+11. **No WHOLE LINES IN CAPITALS** (bold the one word that matters) and no
+    hashtags (not clickable on WhatsApp) unless the user asks for one.
+12. **Sign-off: the name alone on the last line** ("Rakesh, Secretary"). Never
+    start it with a dash: `- ` at the start of a line renders as a bullet.
+
+Also keep: key info first, greeting that fits the audience (skip it mid-chat),
+and the user's own phrases, nicknames and in-jokes when they gave them.
+
+### AI vocabulary and email phrases
 
 Avoid unless they're the user's own words:
 
 - "I hope this message finds you well", "I am writing to inform you",
   "This is to inform all", "Please be informed that", "Kindly do the needful",
-  "Please find attached", "at your earliest convenience"
-- *delve, seamless, elevate, embark, testament, game-changer, tapestry, unlock your potential, look no further, rest assured, without further ado*
+  "Please find attached", "at your earliest convenience", "feel free to reach out"
+- *leverage, utilize, streamline, harness, foster, robust, seamless, delve,
+  elevate, embark, fundamentally, synergy, cutting-edge, plethora, myriad,
+  testament, game-changer, tapestry, unlock your potential, look no further,
+  rest assured, without further ado, in conclusion*
 - "Thrilled to announce" + 🚀✨🎉 openers, "Don't miss out!!!", "!!!"
-- Em-dash chains, rule-of-three padding, the same sentence rhythm on every line
-- Hashtags (they aren't clickable on WhatsApp) except a single event or campaign tag the user asked for
-- WHOLE LINES IN CAPITALS. Bold the one word that matters.
 
 ## Respect and sensitivity
 

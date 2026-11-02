@@ -83,7 +83,7 @@ Inferred from who the message goes to. It sets the defaults for tone and greetin
 
 - `I` for a personal message, `we` for a business, team or family as hosts.
 - **Sign-off**: none in casual chats. A name + role in group notices when the
-  sender's authority matters ("– Priya, Class Rep"). Name + role + organisation
+  sender's authority matters ("Priya, Class Rep" on its own last line). Name + role + organisation
   on a first message to a stranger.
 
 ## Standing preferences

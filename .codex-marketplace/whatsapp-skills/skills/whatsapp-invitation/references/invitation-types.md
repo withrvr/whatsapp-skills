@@ -73,7 +73,7 @@ Ananya's wedding is on Sat, 12 Dec in Jaipur. Papa and I would be so happy to ha
 
 I've shared the card in the family group. I'll call you this weekend for your travel plans.
 
-– Pooja
+Pooja
 ```
 
 ## Reminder
@@ -94,7 +94,7 @@ Thank you all so much for being part of Ananya and Rohit's wedding ❤️
 
 Your love and blessings made every function special. Photos are here: [link]
 
-– The Sharma family
+The Sharma family
 ```
 
 ## Language patterns

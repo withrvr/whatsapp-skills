@@ -12,7 +12,7 @@ Fresh colours and soft fabrics, sizes S to XXL.
 
 Visit us in Lajpat Nagar, or reply with the photo of the one you like and we'll keep it for you.
 
-– Ritu's Closet
+Ritu's Closet
 Reply STOP to stop these messages.
 ```
 
@@ -34,7 +34,7 @@ For analysts and CA students who want to build models faster and stop fighting f
 
 👉 *Register:* https://rzp.io/l/excel26
 
-– Neha
+Neha
 ```
 
 ## 3. Salon: service reminder (1:1)
@@ -46,7 +46,7 @@ Hi Shalini, it's been about 6 weeks since your last hair spa, so you're due for 
 
 Reply with a day and time that suits you, or book here: https://glowstudio.in/book
 
-– Glow Studio
+Glow Studio
 ```
 
 ## 4. Review request after a job

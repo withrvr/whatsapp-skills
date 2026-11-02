@@ -42,7 +42,7 @@ Reply with one word and you get the full revised message:
 
 Tell the AI once, and it applies to every message:
 
-> *I'm Priya Nair, class teacher of 7B at St. Mary's. I write to parents in English, polite, no emoji. Sign group notices "– Mrs. Nair".*
+> *I'm Priya Nair, class teacher of 7B at St. Mary's. I write to parents in English, polite, no emoji. Sign group notices "Mrs. Nair".*
 
 Where to put it so it sticks:
 
@@ -54,7 +54,7 @@ Where to put it so it sticks:
 
 Paste their message (or a screenshot) and add what you want to say:
 
-> *reply to this: "Can you also take the Q3 vendor review this week?" — can't, I'm on the audit till Friday, can do next Tuesday*
+> *reply to this: "Can you also take the Q3 vendor review this week?" can't, I'm on the audit till Friday, can do next Tuesday*
 
 If you haven't decided, say "give me both" and you get a yes and a no version.
 If the message looks like a scam (OTP, KYC link, "Hi Mom, new number", a stranger

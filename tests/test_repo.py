@@ -15,6 +15,7 @@ from pathlib import Path
 from helpers import ROOT, SKILL_NAMES, load_module, sync
 
 build_zips = load_module("build_zips", ROOT / "scripts" / "build_zips.py")
+check_version = load_module("check_version", ROOT / "scripts" / "check_version.py")
 
 WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
 
@@ -143,6 +144,51 @@ class Docs(unittest.TestCase):
         for path in list(ROOT.glob("docs/*.md")) + [ROOT / "README.md"] + list((ROOT / "skills").glob("*/SKILL.md")):
             for body in block.findall(path.read_text(encoding="utf-8")):
                 self.assertNotRegex(body, r"\*\*\S", f"{path.name}: {body[:60]}")
+
+
+class NoDashes(unittest.TestCase):
+    """No em or en dash in anything the model learns from or the user pastes.
+    Only ```markdown blocks (formatter inputs, shown before cleaning) and lines
+    that state the rule itself may contain one."""
+
+    RULE_LINE = re.compile(r"em dash|en dash|dashes|wa_lint|[`'\"(]\s*[—–]|[—–]\s*[`'\")]|2–4|10 am – 6 pm", re.I)
+
+    def test_skill_and_shared_text(self):
+        files = list((ROOT / "skills").rglob("*.md")) + list((ROOT / "shared").rglob("*.md"))
+        files += [ROOT / "README.md"] + list((ROOT / "docs").glob("*.md"))
+        for path in files:
+            text = re.sub(r"^```markdown\n.*?^```", "", path.read_text(encoding="utf-8"), flags=re.S | re.M)
+            for n, line in enumerate(text.splitlines(), 1):
+                if ("—" in line or "–" in line) and not self.RULE_LINE.search(line):
+                    self.fail(f"{path.relative_to(ROOT)}:{n}: {line[:80]}")
+
+    def test_no_dash_in_any_message_block(self):
+        block = re.compile(r"^```text\n(.*?)\n```", re.S | re.M)
+        for path in list(ROOT.rglob("*.md")):
+            if {".git", "evals-workspace", ".codex-marketplace"} & set(path.parts):
+                continue
+            for body in block.findall(path.read_text(encoding="utf-8")):
+                self.assertNotRegex(body, "[—–]", f"{path.relative_to(ROOT)}: {body[:60]}")
+
+
+class VersionPolicy(unittest.TestCase):
+    LOG = "## 1.2.0 (2026-12-01)\n- x\n"
+
+    def test_bumped_with_changelog_passes(self):
+        self.assertEqual(check_version.check("1.2.0", "1.1.9", self.LOG), [])
+
+    def test_first_release_passes(self):
+        self.assertEqual(check_version.check("1.2.0", None, self.LOG), [])
+
+    def test_same_or_lower_version_fails(self):
+        self.assertTrue(check_version.check("1.2.0", "1.2.0", self.LOG))
+        self.assertTrue(check_version.check("1.2.0", "1.10.0", self.LOG))
+
+    def test_missing_changelog_fails(self):
+        self.assertIn("CHANGELOG", " ".join(check_version.check("1.3.0", "1.2.0", self.LOG)))
+
+    def test_bad_version_fails(self):
+        self.assertTrue(check_version.check("1.2", None, self.LOG))
 
 
 class Zips(unittest.TestCase):

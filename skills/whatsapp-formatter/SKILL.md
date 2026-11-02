@@ -32,6 +32,7 @@ say so in one line and offer to hand it to the matching writer skill.
 - **Deliver the final message first**, in a ` ```text ` block, with no preamble. One message unless asked for options. Then `Notes:` (max 3 bullets) only when there's something to act on, never just to confirm a check passed.
 - **Never invent facts, never drop them.** Dates, times, venues, prices, names, numbers and links come from the user, copied exactly. Short messages cut words, not facts. Missing and essential → `[placeholder]`, listed in Notes.
 - **WhatsApp is not Markdown.** Bold is `*one asterisk*`, italic `_x_`, strike `~x~`. Never `**x**`, `# heading`, `[label](url)`, tables or `---`. Markers hug the text and can't span lines. Never put markers on a link.
+- **No em dashes (—) or en dashes (–), ever.** Comma, full stop, colon, "to" or a new line instead. Capitalise names exactly as given. No AI vocabulary (leverage, streamline, delve, foster…). Full list: `references/writing-rules.md` §Voice rules.
 - **First two lines carry the point** (what + when, or the ask). Short blocks, one blank line between them.
 - **Check weekday ↔ date**, am/pm, time zone and deadlines. Flag anything off in the user's brief.
 - **Dials:** length, tone, formatting, emoji, language. Explicit words from the user win, then the audience, then this skill's defaults (`references/message-dials.md`).
@@ -44,7 +45,7 @@ Infer the mode from the request; default is **convert**.
 
 | Mode | Triggered by | Changes | Never changes |
 |---|---|---|---|
-| `convert` | "format", "convert", "WhatsApp-ready" | Formatting, layout, link style, blank lines | Words, order, tone, length |
+| `convert` | "format", "convert", "WhatsApp-ready" | Formatting, layout, link style, blank lines, em/en dashes (always removed) | Words, order, tone, length |
 | `polish` | "fix", "correct", "grammar", "typos", "clean up" | Convert + spelling, grammar, punctuation, obvious clarity fixes | Voice, slang the user chose, facts, length (±10%) |
 | `check` | "check", "review", "any mistakes", "is this okay" | Nothing. Reports problems. | The text |
 
@@ -66,6 +67,9 @@ Infer the mode from the request; default is **convert**.
    in 1-3 bullets (and anything you deliberately didn't change). In `check` mode:
    a short numbered list of problems with the fix for each (plain text, not a code
    block, since it isn't a message to paste), and no rewritten message unless asked.
+   Report **every** error and warning the checker (or the checklist) finds, including
+   a link without `https://`: a bare `www.` link isn't reliably tappable on every
+   phone. Don't overrule a finding by calling it fine; the user decides.
 
 ## Example
 

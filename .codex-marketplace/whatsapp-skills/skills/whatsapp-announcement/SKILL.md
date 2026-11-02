@@ -33,6 +33,7 @@ anything selling (`whatsapp-promotion`), one-way channel posts or series
 - **Deliver the final message first**, in a ` ```text ` block, with no preamble. One message unless asked for options. Then `Notes:` (max 3 bullets) only when there's something to act on, never just to confirm a check passed.
 - **Never invent facts, never drop them.** Dates, times, venues, prices, names, numbers and links come from the user, copied exactly. Short messages cut words, not facts. Missing and essential → `[placeholder]`, listed in Notes.
 - **WhatsApp is not Markdown.** Bold is `*one asterisk*`, italic `_x_`, strike `~x~`. Never `**x**`, `# heading`, `[label](url)`, tables or `---`. Markers hug the text and can't span lines. Never put markers on a link.
+- **No em dashes (—) or en dashes (–), ever.** Comma, full stop, colon, "to" or a new line instead. Capitalise names exactly as given. No AI vocabulary (leverage, streamline, delve, foster…). Full list: `references/writing-rules.md` §Voice rules.
 - **First two lines carry the point** (what + when, or the ask). Short blocks, one blank line between them.
 - **Check weekday ↔ date**, am/pm, time zone and deadlines. Flag anything off in the user's brief.
 - **Dials:** length, tone, formatting, emoji, language. Explicit words from the user win, then the audience, then this skill's defaults (`references/message-dials.md`).
@@ -66,7 +67,7 @@ anything selling (`whatsapp-promotion`), one-way channel posts or series
 - **Links**: each one labeled on its own line; the most important first (it gets the preview).
 - **Files**: say what's attached and suggest a clean file name in Notes.
 - **@mentions** only for people who must act. Remind the user to re-type them.
-- **Sign-off** with name and role when authority matters ("– Rakesh, Secretary").
+- **Sign-off** with name and role when authority matters: "Rakesh, Secretary" alone on the last line.
 - **Big groups and communities:** no "Hi all, hope everyone is doing well" opener.
   The headline is the opener.
 - **Repeat posts** (reminders): shorter than the first post, same headline style, the delta first.
@@ -86,7 +87,7 @@ It was on ~Fri, 6 Nov, 4 pm~. Moved because our CEO is travelling on Friday.
 📝 *Questions for the CEO:* send them by Wed end of day
 https://forms.gle/q7XyZ
 
-– Anita, HR
+Anita, HR
 ```
 
 Notes:

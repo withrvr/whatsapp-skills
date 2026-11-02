@@ -11,8 +11,12 @@ WhatsApp behaviour that changed.
 - **Request a scenario.** Something you send often that isn't in
   [docs/SCENARIOS.md](docs/SCENARIOS.md).
 - **Add an example** to a skill's `references/examples.md`: a realistic brief and
-  the message you'd actually send. Especially welcome: Hindi, Marathi, Tamil,
-  Telugu, Bengali, Gujarati, Urdu, Arabic, Spanish, Portuguese, Indonesian.
+  the message you'd actually send.
+- **Add examples in other languages.** English is the main focus of the skills,
+  and the model already writes other languages on request. Real examples make it
+  write them naturally rather than as translations, so these are especially
+  welcome: Hindi, Marathi, Tamil, Telugu, Bengali, Gujarati, Urdu, Arabic,
+  Spanish, Portuguese, Indonesian.
 - **Correct a WhatsApp fact** (a limit, a formatting rule, a feature) with a source.
 
 ## Setup
@@ -32,16 +36,24 @@ cd whatsapp-skills && pip install -r requirements-dev.txt
 | Formatting rules, dials, writing rules, links/media | `shared/references/*.md` | `python3 scripts/sync.py` |
 | The checker | `shared/scripts/wa_lint.py` (+ tests in `tests/test_wa_lint.py`) | `python3 scripts/sync.py` |
 | Rules every skill shows up front | `shared/snippets/core-rules.md` | `python3 scripts/sync.py` |
-| One skill's workflow or playbook | `skills/<name>/SKILL.md`, `skills/<name>/references/<playbook>.md` | — |
+| One skill's workflow or playbook | `skills/<name>/SKILL.md`, `skills/<name>/references/<playbook>.md` | nothing else |
 | Examples | `skills/<name>/references/examples.md` | tests lint them |
 | Eval cases | `skills/<name>/evals/evals.json` | `python3 scripts/run_evals.py --skill <name>` |
 
 Never edit files that start with a `GENERATED` comment; edit their source in `shared/`.
 
+## Pull requests and versions
+
+All changes reach `main` through a pull request; nothing is pushed to `main`
+directly. Every merged PR is a new version, so each PR bumps `version` in
+`.claude-plugin/plugin.json`, runs `python3 scripts/sync.py`, and adds a
+`CHANGELOG.md` entry. CI checks all three. When the PR is merged, the release
+(tag + zips) is published automatically.
+
 ## Before you open a PR
 
 ```bash
-python3 scripts/sync.py --check && python3 scripts/validate.py && python3 -m unittest discover -s tests
+python3 scripts/sync.py --check && python3 scripts/validate.py && python3 -m unittest discover -s tests && python3 scripts/check_version.py
 ```
 
 If you changed skill instructions and have Claude Code installed, also run the

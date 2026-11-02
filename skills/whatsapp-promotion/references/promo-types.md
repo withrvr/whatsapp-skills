@@ -13,7 +13,7 @@ Skeletons, line by line. `[brackets]` are slots from the brief; drop lines with 
 📅 [Valid from/till]
 👉 [One call to action + link]
 
-– [Business]
+[Business]
 Reply STOP to stop these messages.
 ```
 
@@ -25,7 +25,7 @@ Reply STOP to stop these messages.
 [Blank line, then the offer in 2-3 lines.]
 👉 [Call to action]
 
-– [Business]
+[Business]
 ```
 Never: blessing and discount in the same sentence. Condolence or tragedy days: no promo.
 
@@ -73,7 +73,7 @@ Watch: no "guaranteed job/marks/returns". Credentials only as the user gave them
 Hi [Name], your [service] is due [this week / on Date].
 
 Reply with a time that suits you, or book here: [link]
-– [Business]
+[Business]
 ```
 Short and personal; send to the individual, not a group.
 

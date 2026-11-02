@@ -157,6 +157,24 @@ AI_PHRASES: Tuple[str, ...] = (
     "look no further",
     "without further ado",
     "rest assured",
+    "leverage",
+    "leveraging",
+    "utilize",
+    "utilise",
+    "streamline",
+    "harness the",
+    "foster",
+    "robust",
+    "fundamentally",
+    "synergy",
+    "cutting-edge",
+    "plethora",
+    "a myriad of",
+    "navigate the complexities",
+    "it's not just",
+    "in conclusion",
+    "i'd be happy to help",
+    "feel free to reach out",
 )
 _AI_RE = re.compile(r"\b(?:" + "|".join(re.escape(p) for p in AI_PHRASES) + r")\b", re.I)
 
@@ -545,10 +563,21 @@ def lint(
                         "Whole line in capitals reads as shouting. Bold the one word that matters."))
 
     words = _words(masked)
-    dashes = text.count("—")
-    if dashes > max(1, words // 100):
-        add(Finding("warn", "EM_DASHES", 0,
-                    f"{dashes} em dashes in {words} words. In a chat, use commas, full stops or new lines."))
+    # Dashes: the clearest "an AI wrote this" sign in a chat. None at all.
+    for i, line in enumerate(lines):
+        if "—" in line:
+            add(Finding("error", "EM_DASH", i + 1,
+                        "Em dash (—) in the message. Use a comma, full stop, colon or a new line instead."))
+        if "–" in line:
+            add(Finding("error", "EN_DASH", i + 1,
+                        "En dash (–) in the message. Use 'to' or a plain hyphen for ranges (10-12), "
+                        "a comma or colon elsewhere."))
+        if re.search(r"\S\s--\s\S", line):
+            add(Finding("warn", "DOUBLE_HYPHEN", i + 1, "'--' used as a dash. Use a comma or full stop."))
+        if re.match(r"^\s*[-–—]\s*[A-Z][\w.]*(?:\s[\w.&()']+){0,4}\s*$", line) and i == len(lines) - 1:
+            add(Finding("warn", "DASH_SIGNOFF", i + 1,
+                        "Sign-off starts with a dash: '- ' at the start of a line renders as a bullet. "
+                        "Put the name alone on the last line."))
 
     emoji = count_emoji(text)
     if max_emoji is not None and emoji > max_emoji:
@@ -711,6 +740,27 @@ def _fix_prose(segment: str) -> str:
     return s
 
 
+def _fix_dashes(s: str) -> str:
+    """Remove em and en dashes outside code. Number ranges get a hyphen (2-4),
+    spaced ranges of times and dates get "to", a dash starting a line (a
+    sign-off) is dropped, and every other dash becomes a comma."""
+    out = []
+    for part in re.split(r"(```[\s\S]*?```|`[^`\n]+`)", s):
+        if part.startswith("`"):
+            out.append(part)
+            continue
+        part = re.sub(r"(\d)[–—](\d)", r"\1-\2", part)  # 2–4 -> 2-4
+        # spaced ranges of times, dates and days: "10 am – 6 pm", "5 Dec – Sun, 6 Dec"
+        part = re.sub(r"(?<=\S)\s+[–—]\s+(?=\d|(?:mon|tue|wed|thu|fri|sat|sun|jan|feb|mar|apr|may|jun|"
+                      r"jul|aug|sep|oct|nov|dec)[a-z]*\b)", " to ", part, flags=re.I)
+        part = re.sub(r"(?m)^([ \t]*)[–—][ \t]*", r"\1", part)
+        part = re.sub(r"\s*[–—]\s*", ", ", part)
+        part = re.sub(r"(?<=\S) -- (?=\S)", ", ", part)
+        part = re.sub(r",\s*([,.!?;:])", r"\1", part)
+        out.append(part)
+    return "".join(out)
+
+
 def fix(text: str) -> str:
     """Return ``text`` converted to WhatsApp formatting. Code blocks are kept,
     only a language tag on the opening fence is dropped (```python -> ```)."""
@@ -723,6 +773,7 @@ def fix(text: str) -> str:
         last = m.end()
     parts.append(_fix_prose(text[last:]))
     s = "".join(parts)
+    s = _fix_dashes(s)
     s = re.sub(r"[ \t]+\n", "\n", s)
     s = re.sub(r"\n{3,}", "\n\n", s)
     return s.strip("\n") + ("\n" if text.endswith("\n") else "")

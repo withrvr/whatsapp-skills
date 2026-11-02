@@ -75,7 +75,7 @@ Suggest one in Notes when it fits, and write its content so the user can create 
 | A notice people must find again | **Pin** the message in the group | Say "Pin this" in Notes |
 | One-way notices to many groups | **Community announcement group** | Same message, no change |
 | Same message to many 1:1 chats | **Broadcast list** (only people who saved your number receive it) | Message written to read well 1:1, no "Hi all" |
-| Typo spotted after sending | **Edit** (within 15 minutes) | — |
+| Typo spotted after sending | **Edit** (within 15 minutes) | Nothing, just fix it |
 
 Format a poll suggestion like this in Notes or as its own block:
 

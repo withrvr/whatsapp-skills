@@ -29,11 +29,11 @@
 ```text
 *📢 Hackathon Registration Open*
 
-*Dates:* Saturday, 5 December – Sunday, 6 December
+*Dates:* Saturday, 5 December to Sunday, 6 December
 *Venue:* Main Auditorium, Block C
 
 *How to register*
-1. Form a team of 2–4
+1. Form a team of 2-4
 2. Register at this link: https://forms.gle/Hack26
 3. Pay ₹200 per team
 

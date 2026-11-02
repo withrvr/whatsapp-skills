@@ -187,8 +187,25 @@ class Content(unittest.TestCase):
     def test_blank_lines(self):
         self.assertIn("BLANK_LINES", codes("a\n\n\nb", "warn"))
 
-    def test_em_dashes(self):
-        self.assertIn("EM_DASHES", codes("one — two — three — four", "warn"))
+    def test_any_em_dash_is_an_error(self):
+        self.assertIn("EM_DASH", codes("Big news — we are live", "error"))
+
+    def test_any_en_dash_is_an_error(self):
+        self.assertIn("EN_DASH", codes("Open 10 am – 6 pm", "error"))
+
+    def test_hyphens_are_fine(self):
+        self.assertEqual(codes("A well-known 2-4 day trip, INV-2041"), [])
+
+    def test_double_hyphen(self):
+        self.assertIn("DOUBLE_HYPHEN", codes("we are live -- come over", "warn"))
+
+    def test_dash_signoff(self):
+        self.assertIn("DASH_SIGNOFF", codes("See you there!\n- Priya", "warn"))
+        self.assertNotIn("DASH_SIGNOFF", codes("See you there!\nPriya"))
+
+    def test_more_ai_vocabulary(self):
+        for word in ("leverage", "streamline", "foster", "robust", "utilize", "synergy"):
+            self.assertIn("AI_PHRASE", codes(f"We {word} this", "warn"), word)
 
     def test_mentions_note(self):
         r = wa_lint.lint("@Rahul please confirm", today=TODAY)
@@ -269,6 +286,14 @@ class Fix(unittest.TestCase):
 
     def test_collapses_blank_lines(self):
         self.assertEqual(wa_lint.fix("a\n\n\n\nb"), "a\n\nb")
+
+    def test_dashes_removed(self):
+        self.assertEqual(wa_lint.fix("Big news — we are live!"), "Big news, we are live!")
+        self.assertEqual(wa_lint.fix("Open 10 am – 6 pm, ages 2–4"), "Open 10 am to 6 pm, ages 2-4")
+        self.assertEqual(wa_lint.fix("Sat, 5 Dec – Sun, 6 Dec"), "Sat, 5 Dec to Sun, 6 Dec")
+        self.assertEqual(wa_lint.fix("Thanks!\n– Priya"), "Thanks!\nPriya")
+        self.assertEqual(wa_lint.fix("Code: `a—b`"), "Code: `a—b`")
+        self.assertEqual(wa_lint.lint(wa_lint.fix("x — y – z"), today=TODAY).codes("error"), [])
 
     def test_idempotent_on_clean_text(self):
         clean = "*Date:* Sat, 14 Nov\n\n- one\n- two\n\nhttps://forms.gle/x"

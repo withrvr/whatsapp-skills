@@ -11,7 +11,7 @@ A status is read in about a second. Each pattern below is 1-3 short lines.
 | Birthday (someone else) | Name + wish + a light personal touch | "Happy birthday Maa! The reason this house runs 💛" |
 | Festival | Greeting + one sincere line | "Shubh Deepavali! May your home be full of light and laughter 🪔" |
 | Travel / moment | Place + feeling, or a caption | "Manali mornings ❄️" |
-| Quote / thought | The line, credited if it's someone else's | "“Done is better than perfect.” – Sheryl Sandberg" |
+| Quote / thought | The line, credited if it's someone else's | "“Done is better than perfect.” (Sheryl Sandberg)" |
 | Availability | When + how to reach | "Travelling till Sun, 15 Nov. Slow replies, call if urgent." |
 | Memorial / tribute | Name + one line, no emoji or 🙏 only | "Remembering Dadaji today. Miss you every day." |
 | Exam / interview ask | A light request | "Exam tomorrow. Send good luck, not memes 🙏" |

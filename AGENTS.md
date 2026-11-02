@@ -61,11 +61,19 @@ Results land in `evals-workspace/` (git-ignored). Read failing transcripts
 (`transcript.jsonl`) before changing a skill: fix the instruction that caused
 the behaviour, in general terms, not a patch for one prompt.
 
-## Releases
+## Branches, pull requests and releases
 
-1. Bump `version` in `.claude-plugin/plugin.json` (semver), run `python3 scripts/sync.py`.
-2. Add a `CHANGELOG.md` entry.
-3. Commit, tag `vX.Y.Z`, push the tag. The release workflow builds the skill zips and publishes them.
+- **Nothing is pushed to `main` directly.** All work goes on a branch and reaches
+  `main` through a pull request, after CI passes.
+- **Every merged PR is a release.** Each PR must:
+  1. bump `version` in `.claude-plugin/plugin.json` (semver: patch for fixes and
+     wording, minor for new scenarios or skills, major for renames or removals),
+  2. run `python3 scripts/sync.py`,
+  3. add a `## X.Y.Z (YYYY-MM-DD)` entry to `CHANGELOG.md`.
+
+  CI's "PR ships a new version" check (`scripts/check_version.py`) enforces this.
+- **Merging publishes it.** On the merge commit the release workflow tags
+  `vX.Y.Z` and creates a GitHub Release with the skill zips. Never tag by hand.
 
 ## Style for skill text
 

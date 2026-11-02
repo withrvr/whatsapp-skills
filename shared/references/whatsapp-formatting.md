@@ -68,6 +68,8 @@ Bold is a highlighter: if more than about a fifth of the message is bold, nothin
   ```
 
 - **Emoji as line labels** (📅 ⏰ 📍 🔗 📞 ✅ ⚠️ 📝) scan better than emoji scattered inside sentences.
+- **Sign-off is the name alone on the last line** ("Rakesh, Secretary"). A line starting with `- ` becomes a bullet, and dashes read as AI.
+- **No em or en dashes anywhere.** Ranges use "to" (10 am to 6 pm) or a hyphen (2-4).
 - **No decorative dividers** (`━━━━━`, `✦✦✦`) unless the user asks: they wrap badly on narrow phones. A blank line is the divider.
 - **Mobile width is about 30-35 characters per line.** Long labeled lines wrap; keep each one short.
 
@@ -76,6 +78,7 @@ Bold is a highlighter: if more than about a fifth of the message is bold, nothin
 Run `scripts/wa_lint.py` when you can execute Python. Otherwise check by hand:
 
 - [ ] No `**`, `#` headings, `[label](url)`, tables, `---`, HTML
+- [ ] No em dash (—) or en dash (–) anywhere
 - [ ] Every marker hugs its text and opens and closes on the same line
 - [ ] No marker touching a link, phone number or email
 - [ ] Links start with `https://`

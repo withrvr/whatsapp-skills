@@ -63,7 +63,7 @@ automates anything. You copy, you paste, you send. No accounts, no API keys.
 
 ## Install
 
-**Claude (claude.ai web and Claude Desktop)** — Customize → **Plugins** → **Add** → *Add marketplace* →
+**Claude (claude.ai web and Claude Desktop):** Customize → **Plugins** → **Add** → *Add marketplace* →
 *Add from a repository* → `withrvr/whatsapp-skills` → sync. Then open **Discover**, find
 **whatsapp-skills** and click **+**. It now shows under **Yours**.
 
@@ -120,6 +120,34 @@ More on briefing, dials and standing preferences: **[docs/USAGE.md](docs/USAGE.m
 - **Built for the chat bubble.** The point in the first two lines, short blocks, labeled logistics (📅 ⏰ 📍), links that get a preview, captions that work with media, notes on re-tagging `@mentions`.
 - **A checker in every skill.** [`wa_lint.py`](shared/scripts/wa_lint.py) (Python standard library only) checks each draft before it's handed over: Markdown leaks, markers that won't render, broken links, weekday/date mismatches, the 700-character status limit, placeholders, chain-message patterns. `--fix` converts Markdown to WhatsApp.
 
+## Voice rules
+
+Every skill follows these automatically, and the built-in checker enforces the
+mechanical ones before a message reaches you:
+
+1. **No em dashes (—) or en dashes (–). Ever.** They're the quickest giveaway of
+   AI text in a chat. Commas, full stops, colons, "to" and new lines instead.
+2. **Names capitalised exactly as given.** "priya" in your notes becomes "Priya" in the message.
+3. **No AI or email vocabulary:** leverage, streamline, delve, foster, robust,
+   "I hope this message finds you well", "Kindly do the needful", "Please find attached".
+4. **Specific beats vague.** "₹14,200" not "a big amount", "Thu, 5 Nov, 11 am" not "later this week".
+5. **One point per message.** One ask, one piece of news.
+6. **Length fits the message type.** A reply is a few lines, a status is one glance,
+   an announcement fits one phone screen.
+7. **Sounds typed, not written.** Short sentences, contractions, no "Furthermore", no semicolons in casual chats.
+8. **Emoji are labels, not decoration**, and never more than your audience uses.
+9. **No shouting** (whole lines in capitals) and no hashtags (they don't work on WhatsApp).
+10. **Sign-off is just your name on the last line.** Not "- Name", which WhatsApp turns into a bullet.
+
+## Languages
+
+The skills are written and tested in **English**, which is the main focus. Ask
+for any other language and the model writes it natively: Hinglish, Hindi,
+Marathi, Tamil, Telugu, Bengali, Gujarati, Urdu, Arabic, Spanish, Portuguese,
+Indonesian and more. The same rules apply in every language: exact facts,
+WhatsApp formatting, no dashes. Examples in other languages are especially
+welcome as contributions ([CONTRIBUTING.md](CONTRIBUTING.md)).
+
 ## Tested against a real model
 
 Every skill ships evals in the [Agent Skills format](https://agentskills.io/skill-creation/evaluating-skills)
@@ -129,17 +157,15 @@ urgency, a "Hi Mom, new number" scam, Devanagari output and Markdown input.
 `scripts/run_evals.py` runs each prompt through Claude Code with and without the
 skills and grades the output with deterministic checks.
 
-| | Checks passed |
-|---|---|
-| With these skills | **98%** |
-| Same model, no skills | 62% |
+| | Checks passed | Responses with an em/en dash |
+|---|---|---|
+| With these skills | **99%** | **0 of 24** |
+| Same model, no skills | 60% | 10 of 24 |
 
 Without the skills, the same model put Markdown `**bold**` (which WhatsApp shows as
-literal asterisks) into 18 of 24 answers, repeated "Friday, 7 Nov" and "Friday,
-12 Dec" as fact although both dates are Saturdays, and answered "write my status"
-with 430 to 1,000 characters of options instead of one status. With the skills,
-the right skill picked itself up in 22 of 24 runs without being named; the other
-two were short asks the model answered directly.
+literal asterisks) into 19 of 24 answers, used dashes in 10, and answered "write my
+status" with 740 to 1,150 characters of options instead of one status. With the
+skills, the right one picked itself up in all 24 runs without being named.
 
 ## Repository layout
 
