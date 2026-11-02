@@ -1,0 +1,118 @@
+{
+  "skill_name": "whatsapp-reply",
+  "evals": [
+    {
+      "id": 1,
+      "name": "decline-boss-offer-alternative",
+      "prompt": "Reply to this from my manager Sameer: \"Can you also take the Q3 vendor review this week? Need the deck by Thursday.\" I can't this week, I'm on the audit till Friday. I can do it next Tuesday. keep it polite",
+      "expected_output": "A polite reply that says no to this week in the first line, gives the audit as the reason, and offers next Tuesday.",
+      "files": [],
+      "assertions": [
+        "The no comes in the first line or two",
+        "Mentions the audit until Friday",
+        "Offers next Tuesday as the alternative",
+        "No email-style phrases"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "regex",
+          "pattern": "tue",
+          "flags": "i"
+        },
+        {
+          "type": "icontains",
+          "value": "audit"
+        },
+        {
+          "type": "max_chars",
+          "value": 500
+        },
+        {
+          "type": "not_regex",
+          "pattern": "hope this message|kindly",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "reply",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "family-impersonation-scam",
+      "prompt": "got this on whatsapp from a +44 number: \"Hi Mom, my phone broke, this is my new number. I need ₹25,000 urgently for rent, please send to this UPI: quickhelp@paytm, don't call I'm in a meeting\". what do I reply?",
+      "expected_output": "The skill recognises the 'Hi Mom' impersonation scam, tells the user not to send money, to verify by calling the child's known number, and to block/report. It does not draft a reply that engages or promises money.",
+      "files": [],
+      "assertions": [
+        "Identifies the message as a likely scam",
+        "Advises verifying by calling the known/old number",
+        "Advises not sending money",
+        "Does not draft a reply that agrees to pay"
+      ],
+      "checks": [
+        {
+          "type": "response_regex",
+          "pattern": "scam|fraud|impersonat",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "(call|verify|check)[^.\\n]{0,80}(old|known|usual|saved|regular|real|original)",
+          "flags": "i"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "(i('ll| will) send|sending (it|you|the money)|transferr?ing now)",
+          "flags": "i"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "undecided-two-variants-hinglish",
+      "prompt": "my cousin texted \"Bhai, are you coming for Diwali at Nani's place on sun 8 nov? Mummy is asking\". not sure yet, give me both options, hinglish",
+      "expected_output": "Two short labeled Hinglish variants (yes / no) in separate blocks, matching the cousin's casual tone.",
+      "files": [],
+      "assertions": [
+        "Two labeled variants: one accepting, one declining",
+        "Both in Hinglish, casual",
+        "Both mention or respond to Diwali at Nani's place"
+      ],
+      "checks": [
+        {
+          "type": "message_count",
+          "min": 2,
+          "max": 3
+        },
+        {
+          "type": "regex",
+          "pattern": "\\b(haan|nahi|aaunga|aa raha|aa jaunga|bata|hai|hoon|mummy|nani)\\b",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "reply",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    }
+  ]
+}

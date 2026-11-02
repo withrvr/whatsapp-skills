@@ -1,0 +1,134 @@
+{
+  "skill_name": "whatsapp-channel",
+  "evals": [
+    {
+      "id": 1,
+      "name": "series-day-7",
+      "prompt": "channel 'Daily DSA' day 7 of 30: two pointer technique, example: find a pair with target sum in a sorted array. tomorrow: sliding window",
+      "expected_output": "A series post with a consistent header (Day 7/30), the technique explained with the example, a reaction-style CTA (not 'comment below'), and a 'Tomorrow: sliding window' footer.",
+      "files": [],
+      "assertions": [
+        "Header shows Day 7 of 30",
+        "Explains two pointers with the sorted-array pair example",
+        "CTA uses reactions/forwarding, not replies or comments",
+        "Footer teases sliding window"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "regex",
+          "pattern": "7\\s*/\\s*30|day 7",
+          "flags": "i"
+        },
+        {
+          "type": "regex",
+          "pattern": "sliding window",
+          "flags": "i"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "comment below|reply below|comment your|drop a comment",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "channel",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "welcome-post",
+      "prompt": "welcome post for my new channel 'Pune Weekend Plans': every friday 6pm I post 5 things to do in Pune that weekend",
+      "expected_output": "A welcome post naming the channel, what followers get and when (Fridays 6 pm, 5 things), and a channel-appropriate action.",
+      "files": [],
+      "assertions": [
+        "Names the channel",
+        "Says Fridays at 6 pm, 5 things to do",
+        "No 'comment below' style CTA"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "regex",
+          "pattern": "friday",
+          "flags": "i"
+        },
+        {
+          "type": "regex",
+          "pattern": "6 ?pm",
+          "flags": "i"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "comment below|reply below|comment your",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "channel",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "plan-series",
+      "prompt": "plan a 5 day series for my channel 'Money Mornings' on budgeting for first jobbers, then write day 1",
+      "expected_output": "A 5-item plan in chat, then Day 1 fully written in a text block with a consistent header and a 'Tomorrow:' footer.",
+      "files": [],
+      "assertions": [
+        "A 5-day plan is listed",
+        "Day 1 is fully written in a copyable block",
+        "Day 1 has a series header and a tomorrow footer"
+      ],
+      "checks": [
+        {
+          "type": "response_regex",
+          "pattern": "day 5|5\\.|5/5",
+          "flags": "i"
+        },
+        {
+          "type": "message_count",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "type": "regex",
+          "pattern": "day 1|1\\s*/\\s*5",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "channel",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    }
+  ]
+}

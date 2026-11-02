@@ -1,0 +1,144 @@
+{
+  "skill_name": "whatsapp-announcement",
+  "evals": [
+    {
+      "id": 1,
+      "name": "meeting-moved-office",
+      "prompt": "post in the team group: sprint demo moved from wed 11 nov 3pm to thu 12 nov 11am because the client asked. same meet link https://meet.google.com/abc-defg-hij. please update your demo slides in the shared deck https://docs.google.com/presentation/d/1XyZ by wed 6pm. from Kunal (Eng Manager)",
+      "expected_output": "A group announcement with a headline saying the demo moved to Thu 12 Nov 11 am, the old time struck through or clearly shown as old, both links exactly, the slide deadline, and Kunal's sign-off.",
+      "files": [],
+      "assertions": [
+        "Headline says the demo moved and gives the new date/time",
+        "Both links appear exactly and unformatted",
+        "The Wed 6 pm slide deadline is stated",
+        "Signed by Kunal, Eng Manager"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "contains",
+          "value": "https://meet.google.com/abc-defg-hij"
+        },
+        {
+          "type": "contains",
+          "value": "https://docs.google.com/presentation/d/1XyZ"
+        },
+        {
+          "type": "regex",
+          "pattern": "thu(rsday)?,? 12 nov",
+          "flags": "i"
+        },
+        {
+          "type": "icontains",
+          "value": "Kunal"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "announcement",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "urgent-alert-society",
+      "prompt": "urgent alert for society group: lift in B wing not working since morning, technician coming at 4 pm today, elderly residents call security at 98200 44556 for help with groceries. no emoji except a warning sign",
+      "expected_output": "An urgent alert: no greeting, the problem in the headline, technician time, security number exactly, at most a warning emoji.",
+      "files": [],
+      "assertions": [
+        "The headline states the B-wing lift is not working",
+        "Technician at 4 pm today",
+        "Security number exactly 98200 44556",
+        "No emoji other than a warning sign, no jokes"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "contains",
+          "value": "98200 44556"
+        },
+        {
+          "type": "regex",
+          "pattern": "b[ -]?wing",
+          "flags": "i"
+        },
+        {
+          "type": "regex",
+          "pattern": "4 ?pm",
+          "flags": "i"
+        },
+        {
+          "type": "max_emoji",
+          "value": 2
+        },
+        {
+          "type": "lint_clean",
+          "kind": "announcement",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "study-material-with-mentions",
+      "prompt": "share with my class 12 physics batch: chapter 6 EMI notes (pdf I'll attach), NCERT exemplar solutions https://ncert.nic.in/exemplar.php?ln=en, last 5 years PYQs https://drive.google.com/drive/folders/1PyQs. test on mon 16 nov. also @Riya and @Kabir collect the printed sheets from the staff room",
+      "expected_output": "A study-material share with each link labeled on its own line, the test date, the PDF mentioned as attached, and a note to retype @mentions in WhatsApp.",
+      "files": [],
+      "assertions": [
+        "Both links appear exactly",
+        "The test date Mon, 16 Nov appears",
+        "The PDF attachment is mentioned",
+        "Notes tell the user to retype @Riya and @Kabir to tag them"
+      ],
+      "checks": [
+        {
+          "type": "contains",
+          "value": "https://ncert.nic.in/exemplar.php?ln=en"
+        },
+        {
+          "type": "contains",
+          "value": "https://drive.google.com/drive/folders/1PyQs"
+        },
+        {
+          "type": "regex",
+          "pattern": "mon(day)?,? 16 nov",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "re-?type|type @|real tag|to tag",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "announcement",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    }
+  ]
+}

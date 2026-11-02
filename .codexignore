@@ -1,0 +1,6 @@
+evals-workspace/
+dist/
+tests/
+__pycache__/
+*.pyc
+.git/

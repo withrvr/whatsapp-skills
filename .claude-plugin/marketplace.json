@@ -1,0 +1,37 @@
+{
+  "name": "whatsapp-skills",
+  "owner": {
+    "name": "withrvr",
+    "url": "https://github.com/withrvr"
+  },
+  "metadata": {
+    "description": "WhatsApp message-writing skills for Claude: give the context once, get the final message to paste.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "whatsapp-skills",
+      "source": "./",
+      "description": "8 skills that turn the context in your head into a ready-to-send WhatsApp message: 1:1 messages, replies, group and community announcements, invitations, promotions, status updates, channel posts, and a formatter that converts Markdown or email text into WhatsApp formatting. Draft-only: nothing is sent for you.",
+      "version": "1.0.0",
+      "author": {
+        "name": "withrvr",
+        "url": "https://github.com/withrvr"
+      },
+      "homepage": "https://github.com/withrvr/whatsapp-skills",
+      "repository": "https://github.com/withrvr/whatsapp-skills",
+      "license": "MIT",
+      "keywords": [
+        "whatsapp",
+        "messaging",
+        "writing",
+        "announcements",
+        "invitations",
+        "communication",
+        "claude-skills",
+        "agent-skills"
+      ],
+      "category": "productivity"
+    }
+  ]
+}

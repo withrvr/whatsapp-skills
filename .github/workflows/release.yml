@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check before releasing
+        run: |
+          python -m pip install --quiet -r requirements-dev.txt
+          python scripts/sync.py --check
+          python scripts/validate.py
+          python -m unittest discover -s tests
+      - name: Tag matches the plugin version
+        run: |
+          version=$(python -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])")
+          test "v$version" = "${GITHUB_REF_NAME}" || { echo "Tag ${GITHUB_REF_NAME} != v$version"; exit 1; }
+      - name: Build skill zips
+        run: python scripts/build_zips.py --out dist
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes=$(awk "/^## ${GITHUB_REF_NAME#v} /{flag=1; next} /^## /{flag=0} flag" CHANGELOG.md)
+          gh release create "${GITHUB_REF_NAME}" dist/*.zip --title "${GITHUB_REF_NAME}" --notes "${notes:-Release ${GITHUB_REF_NAME}}"

@@ -1,0 +1,134 @@
+{
+  "skill_name": "whatsapp-message",
+  "evals": [
+    {
+      "id": 1,
+      "name": "early-leave-team-lead",
+      "prompt": "write a whatsapp msg to my team lead Arvind: dentist appointment at 4 today so leaving at 3:30. the login-fix PR is merged, QA can test on staging. short",
+      "expected_output": "One short, friendly-professional message to Arvind with the 3:30 departure, the reason, and that the PR is merged and testable on staging. No preamble, no Markdown.",
+      "files": [],
+      "assertions": [
+        "The message is addressed to Arvind",
+        "It says the user leaves at 3:30 for a dentist appointment",
+        "It mentions the merged login-fix PR and QA testing on staging",
+        "It is short (under ~4 lines) and has no Markdown"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "contains",
+          "value": "3:30"
+        },
+        {
+          "type": "icontains",
+          "value": "Arvind"
+        },
+        {
+          "type": "icontains",
+          "value": "staging"
+        },
+        {
+          "type": "max_chars",
+          "value": 450
+        },
+        {
+          "type": "lint_clean",
+          "kind": "message",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "cold-message-hinglish",
+      "prompt": "first whatsapp message to a photographer I found on instagram (@lensbyaman). my sister's engagement is on sun 6 dec in pune, need a quote for 4 hours candid photography. hinglish, casual",
+      "expected_output": "A casual Hinglish (Roman script) first message that introduces the user, says how they found the photographer, gives the date (Sun, 6 Dec), city (Pune), 4 hours candid, and asks for a quote.",
+      "files": [],
+      "assertions": [
+        "Written in Hinglish in Roman script",
+        "Says how the user found the photographer (Instagram)",
+        "Includes 6 Dec, Pune and 4 hours of candid photography",
+        "Asks for a quote or price"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "regex",
+          "pattern": "6 dec",
+          "flags": "i"
+        },
+        {
+          "type": "icontains",
+          "value": "pune"
+        },
+        {
+          "type": "regex",
+          "pattern": "\\b(hai|kya|chahiye|bata|batana|ho|kar|aap|mujhe|meri)\\b",
+          "flags": "i"
+        },
+        {
+          "type": "regex",
+          "pattern": "\\b4\\b"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "message",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "weekday-date-trap",
+      "prompt": "msg to landlord Mr. Kapoor: november rent ₹18,500 will reach on Friday 7 Nov because my salary is delayed this month, sorry. formal",
+      "expected_output": "A formal, apologetic message with the exact amount. 7 Nov 2026 is a Saturday, so the skill must not repeat 'Friday 7 Nov' as fact: it flags the mismatch in Notes or uses a placeholder/asks.",
+      "files": [],
+      "assertions": [
+        "The amount ₹18,500 appears exactly",
+        "The weekday/date mismatch (7 Nov is a Saturday) is flagged to the user",
+        "Tone is formal and apologetic without over-explaining"
+      ],
+      "checks": [
+        {
+          "type": "contains",
+          "value": "18,500"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "saturday|\\bsat\\b|doesn.t match|mismatch|isn.t a friday|not a friday",
+          "flags": "i",
+          "why": "flags that 7 Nov 2026 is a Saturday"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "message",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    }
+  ]
+}

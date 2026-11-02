@@ -1,0 +1,41 @@
+{
+  "name": "whatsapp-skills",
+  "description": "8 skills that turn the context in your head into a ready-to-send WhatsApp message: 1:1 messages, replies, group and community announcements, invitations, promotions, status updates, channel posts, and a formatter that converts Markdown or email text into WhatsApp formatting. Draft-only: nothing is sent for you.",
+  "version": "1.0.0",
+  "author": {
+    "name": "withrvr",
+    "url": "https://github.com/withrvr"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/withrvr/whatsapp-skills",
+  "repository": "https://github.com/withrvr/whatsapp-skills",
+  "keywords": [
+    "whatsapp",
+    "messaging",
+    "writing",
+    "announcements",
+    "invitations",
+    "communication",
+    "agent-skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "WhatsApp Skills",
+    "composerIcon": "./assets/icon.svg",
+    "shortDescription": "Give the context once, get the WhatsApp message to paste.",
+    "longDescription": "8 skills for writing WhatsApp messages: 1:1 messages, replies, group and community announcements, invitations, promotions, status updates, channel posts, and a Markdown-to-WhatsApp formatter. You describe the situation in your own words; the skill returns the final message with correct WhatsApp formatting, exact dates and links, and the tone you asked for.",
+    "developerName": "withrvr",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/withrvr/whatsapp-skills",
+    "defaultPrompt": [
+      "Write a WhatsApp message to my manager that I'm on leave tomorrow.",
+      "Announce a meeting change in my team's WhatsApp group.",
+      "Make a WhatsApp invite for my sister's wedding."
+    ],
+    "brandColor": "#1FA855"
+  }
+}
