@@ -25,5 +25,7 @@ First release.
   them), names capitalised as given, AI and email vocabulary list, specific over vague,
   one point per message, name-only sign-offs.
 - English is the main focus; other languages are written on request.
+- Launch video (`media/launch/`): 22-second square video, poster and README preview,
+  rebuilt from source with `media/launch/build.sh`.
 - Pull-request-only workflow: each PR bumps the version (CI-checked) and merging
   it to `main` tags and publishes the release automatically.

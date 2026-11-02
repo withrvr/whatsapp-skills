@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #061109; --accent: #1FA855; --accent-2: #7EE2A8; --text: #F2F7F3; --muted: #93AB9D;
+    --card: rgba(255,255,255,0.055); --line: rgba(255,255,255,0.10); --red: #FF6B6B; --amber: #FFB86B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1080px; overflow: hidden; }
+  body {
+    font-family: "Inter", "Noto Color Emoji", sans-serif; color: var(--text);
+    background:
+      radial-gradient(circle at 25% 15%, rgba(31,168,85,0.28) 0%, rgba(31,168,85,0) 45%),
+      radial-gradient(circle at 85% 90%, rgba(31,168,85,0.16) 0%, rgba(31,168,85,0) 40%),
+      linear-gradient(160deg, #0A1E13 0%, #061109 55%, #040B07 100%);
+  }
+  #grid { position: absolute; inset: 0; opacity: 0.35;
+    background-image: radial-gradient(rgba(255,255,255,0.07) 1.2px, transparent 1.2px);
+    background-size: 36px 36px; }
+  .scene { position: absolute; inset: 0; opacity: 0; will-change: transform, opacity; }
+  .abs { position: absolute; }
+  .center { left: 0; right: 0; text-align: center; }
+  .h1 { font-weight: 800; letter-spacing: -2.5px; line-height: 1.04; }
+  .accent { color: var(--accent-2); }
+  .mono { font-family: "DejaVu Sans Mono", monospace; }
+  .word { display: inline-block; }
+  .caret { display: inline-block; width: 3px; height: 1em; background: var(--accent-2); vertical-align: -0.12em; margin-left: 3px; }
+  /* scene 1 */
+  #notes { left: 110px; width: 860px; top: 560px; padding: 34px 38px 40px; border-radius: 28px;
+    background: var(--card); border: 1px solid var(--line); }
+  .label { font-size: 22px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 18px; }
+  #notesText { font-size: 33px; line-height: 1.45; color: #D4E6DA; min-height: 144px; }
+  /* scene 2 */
+  .chip { display: inline-block; padding: 10px 24px; border-radius: 999px; font-size: 26px;
+    border: 1.5px solid rgba(126,226,168,0.55); color: var(--accent-2); background: rgba(31,168,85,0.10); }
+  #chat { left: 110px; top: 300px; width: 860px; height: 560px; border-radius: 44px; overflow: hidden;
+    background: #0D1D15; border: 1px solid var(--line); box-shadow: 0 40px 80px rgba(0,0,0,0.45); }
+  #chatHead { height: 96px; display: flex; align-items: center; gap: 18px; padding: 0 30px;
+    background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--line); }
+  .avatar { width: 56px; height: 56px; border-radius: 50%; background: #2A5C40; display: grid; place-items: center;
+    font-weight: 700; font-size: 22px; color: #CFF5DD; }
+  .chatName { font-size: 26px; font-weight: 700; }
+  .chatSub { font-size: 19px; color: var(--muted); margin-top: 2px; }
+  #bubble { right: 34px; top: 132px; width: 712px; padding: 26px 30px 44px; border-radius: 28px 28px 8px 28px;
+    background: #17603A; font-size: 29px; line-height: 1.42; transform-origin: 100% 100%; }
+  .bl { margin-bottom: 10px; }
+  .link { color: #A9E4FF; text-decoration: underline; text-underline-offset: 4px; }
+  .stamp { position: absolute; right: 22px; bottom: 12px; font-size: 18px; color: rgba(255,255,255,0.65); }
+  /* scene 3 */
+  .cardLabel { font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+  #bad { left: 110px; width: 860px; top: 292px; }
+  #badBubble { padding: 24px 30px; border-radius: 24px; background: #262C29; font-size: 33px; color: #E6EAE7; }
+  .hl { border-radius: 6px; padding: 0 3px; }
+  #lint { left: 110px; width: 860px; top: 476px; padding: 24px 30px; border-radius: 22px; background: #030805;
+    border: 1px solid var(--line); font-size: 22px; line-height: 1.9; }
+  .ll { white-space: pre; }
+  .x { color: var(--red); } .code { color: var(--amber); } .dim { color: #7F978A; }
+  #good { left: 110px; width: 860px; top: 760px; }
+  #goodBubble { padding: 24px 30px; border-radius: 24px; background: #17603A; font-size: 33px; }
+  #ready { margin-top: 16px; font-size: 26px; color: var(--accent-2); font-weight: 700; }
+  /* scene 4 */
+  .sk { position: absolute; width: 270px; height: 150px; border-radius: 26px; background: var(--card);
+    border: 1px solid var(--line); padding: 20px 22px; }
+  .sk .e { font-size: 40px; line-height: 1; }
+  .sk .n { font-size: 27px; font-weight: 700; margin-top: 14px; letter-spacing: -0.5px; }
+  .sk .d { font-size: 18px; color: var(--muted); margin-top: 4px; }
+  .sk.big { background: rgba(31,168,85,0.16); border-color: rgba(126,226,168,0.45); }
+  /* scene 5 */
+  .bar { position: absolute; left: 110px; width: 860px; }
+  .barTop { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; }
+  .barName { font-size: 30px; font-weight: 600; }
+  .barVal { font-size: 72px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+  .track { height: 38px; border-radius: 19px; background: rgba(255,255,255,0.08); overflow: hidden; }
+  .fill { height: 100%; border-radius: 19px; }
+  /* scene 6 */
+  #icon { left: 460px; top: 150px; width: 160px; height: 160px; }
+  #install { left: 90px; width: 900px; top: 700px; padding: 26px 30px; border-radius: 22px; background: #030805;
+    border: 1px solid rgba(126,226,168,0.35); font-size: 28px; color: #D4E6DA; white-space: nowrap; }
+  /* brand tag */
+  #tag { left: 40px; bottom: 30px; display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; color: #C9DDD0; }
+  #tag svg { width: 38px; height: 38px; }
+</style>
+</head>
+<body>
+<div id="grid"></div>
+
+<!-- 1. Hook -->
+<div class="scene" id="s1">
+  <div class="abs center h1" id="s1h" style="top: 250px; font-size: 86px;">
+    <span class="word">You</span> <span class="word">know</span> <span class="word">exactly</span><br>
+    <span class="word">what</span> <span class="word">to</span> <span class="word accent">say.</span>
+  </div>
+  <div class="abs" id="notes">
+    <div class="label">your notes</div>
+    <div class="mono" id="notesText"></div>
+  </div>
+</div>
+
+<!-- 2. Reveal -->
+<div class="scene" id="s2">
+  <div class="abs center h1" id="s2h" style="top: 104px; font-size: 70px;">Get the <span class="accent">WhatsApp message.</span></div>
+  <div class="abs center" id="s2chip" style="top: 204px;"><span class="chip mono">⚡ /whatsapp-announcement</span></div>
+  <div class="abs" id="chat">
+    <div id="chatHead">
+      <div class="avatar">TE</div>
+      <div><div class="chatName">Team Everyone</div><div class="chatSub">48 members</div></div>
+    </div>
+    <div class="abs" id="bubble">
+      <div class="bl">📢 <b>All-hands moved to Thu, 5 Nov, 11 am</b></div>
+      <div class="bl">It was on <s>Fri, 6 Nov, 4 pm</s>. Moved because our CEO is travelling.</div>
+      <div class="bl">🔗 <b>Zoom:</b> <span class="link">https://zoom.us/j/8812345678</span></div>
+      <div class="bl">📝 <b>Questions:</b> send them by Wed end of day</div>
+      <div class="bl">Anita, HR</div>
+      <div class="stamp">10:42</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Highlight: WhatsApp, not Markdown -->
+<div class="scene" id="s3">
+  <div class="abs center h1" id="s3h" style="top: 96px; font-size: 66px;">Formatting that<br><span class="accent">actually renders.</span></div>
+  <div class="abs" id="bad">
+    <div class="cardLabel" style="color:#F2B5B5"><span class="dot" style="background:var(--red)"></span>Typical AI output</div>
+    <div id="badBubble"><span class="hl" id="hl1">**</span>All-hands moved<span class="hl" id="hl2">**</span> <span class="hl" id="hl3">—</span> <span class="hl" id="hl4">Thursday, 6 Nov</span>, 11 am</div>
+  </div>
+  <div class="abs mono" id="lint">
+    <div class="ll dim" id="l0">$ python3 wa_lint.py draft.txt</div>
+    <div class="ll" id="l1"><span class="x">✗</span> <span class="code">MD_BOLD         </span> **bold** shows as stars</div>
+    <div class="ll" id="l2"><span class="x">✗</span> <span class="code">EM_DASH         </span> em dash reads as AI</div>
+    <div class="ll" id="l3"><span class="x">✗</span> <span class="code">WEEKDAY_MISMATCH</span> 6 Nov 2026 is a Friday, not Thursday</div>
+  </div>
+  <div class="abs" id="good">
+    <div id="goodBubble">📢 <b>All-hands moved to Thu, 5 Nov, 11 am</b></div>
+    <div id="ready">✓ ready to paste</div>
+  </div>
+</div>
+
+<!-- 4. Highlight: 11 skills -->
+<div class="scene" id="s4">
+  <div class="abs center h1" id="s4h" style="top: 104px; font-size: 66px;">11 skills.<br><span class="accent">One for every message.</span></div>
+  <div id="cards"></div>
+</div>
+
+<!-- 5. Highlight: proof -->
+<div class="scene" id="s5">
+  <div class="abs center h1" id="s5h" style="top: 150px; font-size: 68px;">Tested on 33 real prompts.</div>
+  <div class="abs center" id="s5s" style="top: 248px; font-size: 32px; color: var(--muted);">Same model. With and without the skills.</div>
+  <div class="bar" id="b1" style="top: 400px;">
+    <div class="barTop"><div class="barName">with whatsapp-skills</div><div class="barVal accent" id="v1">0%</div></div>
+    <div class="track"><div class="fill" id="f1" style="background: linear-gradient(90deg, #1FA855, #7EE2A8); width: 0%"></div></div>
+  </div>
+  <div class="bar" id="b2" style="top: 610px;">
+    <div class="barTop"><div class="barName" style="color: var(--muted)">same model, no skills</div><div class="barVal" id="v2" style="color:#B9C7BF">0%</div></div>
+    <div class="track"><div class="fill" id="f2" style="background: #5A6B62; width: 0%"></div></div>
+  </div>
+  <div class="abs center" id="s5f" style="top: 830px; font-size: 26px; color: var(--muted);">of automated checks passed: formatting, dates, facts, no em dashes</div>
+</div>
+
+<!-- 6. Outro -->
+<div class="scene" id="s6">
+  <div class="abs center" id="s6b" style="top: 70px;"><span class="chip" style="font-weight:700;font-size:24px;letter-spacing:1px;">🚀 Now open source · v1.0.0</span></div>
+  <div class="abs" id="icon">
+    <svg viewBox="0 0 64 64" width="160" height="160"><rect width="64" height="64" rx="14" fill="#1FA855"/><path d="M14 18a6 6 0 0 1 6-6h24a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H27l-9 8v-8h-0a4 4 0 0 1-4-4z" fill="#ffffff"/><rect x="21" y="20" width="18" height="3" rx="1.5" fill="#1FA855"/><rect x="21" y="27" width="12" height="3" rx="1.5" fill="#1FA855"/><path d="M41 33l9-9 4 4-9 9-5 1z" fill="#0B5D2E" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="abs center h1" id="s6t" style="top: 350px; font-size: 92px;">whatsapp-skills</div>
+  <div class="abs center" id="s6g" style="top: 478px; font-size: 42px; font-weight: 600; line-height: 1.3; color: #DCEBE1;">Give the context once.<br><span class="accent">Get the message to paste.</span></div>
+  <div class="abs mono" id="install"></div>
+  <div class="abs center" id="s6f" style="top: 838px; font-size: 28px; color: var(--muted);">Free &amp; open source · Claude · ChatGPT · Codex</div>
+  <div class="abs center" id="s6u" style="top: 890px; font-size: 30px; font-weight: 700; color: var(--accent-2);">github.com/withrvr/whatsapp-skills</div>
+</div>
+
+<div class="abs" id="tag">
+  <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#1FA855"/><path d="M14 18a6 6 0 0 1 6-6h24a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H27l-9 8v-8h-0a4 4 0 0 1-4-4z" fill="#ffffff"/></svg>
+  whatsapp-skills
+</div>
+
+<script>
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = x => 1 - Math.pow(1 - clamp(x), 3);
+const easeIn = x => Math.pow(clamp(x), 3);
+const back = x => { x = clamp(x); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const $ = id => document.getElementById(id);
+
+function appear(el, t, at, dur = 0.35, dy = 24) {
+  const p = easeOut(prog(t, at, at + dur));
+  el.style.opacity = p;
+  el.style.transform = `translateY(${(1 - p) * dy}px)`;
+}
+function sceneVis(el, t, start, end, fin = 0.3, fout = 0.25) {
+  if (t < start || t >= end) { el.style.opacity = 0; return; }
+  const i = easeOut(prog(t, start, start + fin));
+  const o = 1 - easeIn(prog(t, end - fout, end));
+  el.style.opacity = Math.min(i, o);
+  const lift = (1 - o) * -24;
+  const scale = 0.985 + 0.015 * i - (1 - o) * 0.02;
+  el.style.transform = `translateY(${lift}px) scale(${scale})`;
+}
+function typeText(el, full, t, a, b, caret = true) {
+  const n = Math.floor(full.length * prog(t, a, b));
+  const showCaret = caret && (t < b + 0.4 ? true : Math.floor(t * 2.5) % 2 === 0);
+  el.innerHTML = escapeHtml(full.slice(0, n)) + (showCaret ? '<span class="caret"></span>' : '');
+}
+function escapeHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+const NOTES = "all hands moved fri 4pm → thu 11am, ceo travelling. same zoom link. qs in the form by wed. from anita hr";
+const INSTALL = "> /plugin marketplace add withrvr/whatsapp-skills";
+const SKILLS = [
+  ["💬", "message", "1:1 chats"], ["↩️", "reply", "answer anything"], ["📢", "announcement", "groups & alerts"],
+  ["💌", "invitation", "weddings & parties"], ["🛍️", "promotion", "offers & orders"], ["⭕", "status", "24-hour status"],
+  ["📡", "channel", "channel posts"], ["✨", "formatter", "fix AI Markdown"], ["🕶️", "redact", "hide numbers & names"],
+  ["⚙️", "setup", "business profile"], ["📝", "catchup", "what did I miss?"], ["170", "scenarios", "and counting", true],
+];
+(function buildCards() {
+  const box = $("cards");
+  SKILLS.forEach(([e, n, d, big], i) => {
+    const c = document.createElement("div");
+    c.className = "sk" + (big ? " big" : "");
+    const col = i % 3, row = Math.floor(i / 3);
+    c.style.left = (111 + col * 294) + "px";
+    c.style.top = (322 + row * 170) + "px";
+    c.innerHTML = big
+      ? `<div class="e" style="font-weight:800;font-size:46px;color:#7EE2A8">${e}</div><div class="n">${n}</div><div class="d">${d}</div>`
+      : `<div class="e">${e}</div><div class="n">${n}</div><div class="d">${d}</div>`;
+    c.id = "card" + i;
+    box.appendChild(c);
+  });
+})();
+
+window.render = function (t) {
+  // 1. Hook 0-3
+  sceneVis($("s1"), t, 0, 3.0, 0.01, 0.25);
+  document.querySelectorAll("#s1h .word").forEach((w, i) => appear(w, t, 0.04 + i * 0.07, 0.3, 30));
+  appear($("notes"), t, 0.35, 0.3, 30);
+  typeText($("notesText"), NOTES, t, 0.55, 2.55);
+
+  // 2. Reveal 3-7
+  sceneVis($("s2"), t, 3.0, 7.0);
+  appear($("s2h"), t, 3.05, 0.35);
+  appear($("s2chip"), t, 3.3, 0.3);
+  appear($("chat"), t, 3.15, 0.4, 40);
+  const bp = back(prog(t, 3.5, 3.85));
+  $("bubble").style.opacity = clamp(prog(t, 3.5, 3.65));
+  $("bubble").style.transform = `scale(${0.85 + 0.15 * bp})`;
+  document.querySelectorAll("#bubble .bl").forEach((l, i) => appear(l, t, 3.6 + i * 0.25, 0.3, 14));
+  appear(document.querySelector("#bubble .stamp"), t, 4.9, 0.3, 0);
+
+  // 3. Not Markdown 7-11
+  sceneVis($("s3"), t, 7.0, 11.0);
+  appear($("s3h"), t, 7.05, 0.35);
+  appear($("bad"), t, 7.25, 0.35);
+  appear($("lint"), t, 7.5, 0.3);
+  appear($("l0"), t, 7.55, 0.2, 0);
+  [["l1", 8.0, ["hl1", "hl2"]], ["l2", 8.5, ["hl3"]], ["l3", 9.0, ["hl4"]]].forEach(([id, at, hls]) => {
+    appear($(id), t, at, 0.2, 0);
+    hls.forEach(h => {
+      const p = easeOut(prog(t, at, at + 0.2));
+      $(h).style.background = `rgba(255,107,107,${0.32 * p})`;
+      $(h).style.boxShadow = `inset 0 -3px 0 rgba(255,107,107,${p})`;
+    });
+  });
+  appear($("good"), t, 9.5, 0.35, 30);
+  const rp = back(prog(t, 9.9, 10.2));
+  $("ready").style.opacity = clamp(prog(t, 9.9, 10.0));
+  $("ready").style.transform = `scale(${0.7 + 0.3 * rp})`;
+  $("ready").style.transformOrigin = "0 50%";
+
+  // 4. 11 skills 11-15
+  sceneVis($("s4"), t, 11.0, 15.0);
+  appear($("s4h"), t, 11.05, 0.35);
+  SKILLS.forEach((_, i) => {
+    const at = 11.25 + i * 0.125;  // 16th notes at 120 BPM
+    const c = $("card" + i);
+    c.style.opacity = clamp(prog(t, at, at + 0.12));
+    c.style.transform = `scale(${0.6 + 0.4 * back(prog(t, at, at + 0.3))})`;
+  });
+
+  // 5. Proof 15-18
+  sceneVis($("s5"), t, 15.0, 18.0);
+  appear($("s5h"), t, 15.05, 0.35);
+  appear($("s5s"), t, 15.3, 0.35);
+  appear($("b1"), t, 15.45, 0.3);
+  appear($("b2"), t, 15.6, 0.3);
+  const p1 = easeOut(prog(t, 15.6, 16.6)), p2 = easeOut(prog(t, 15.8, 16.8));
+  $("f1").style.width = (99 * p1) + "%"; $("v1").textContent = Math.round(99 * p1) + "%";
+  $("f2").style.width = (60 * p2) + "%"; $("v2").textContent = Math.round(60 * p2) + "%";
+  appear($("s5f"), t, 16.4, 0.35);
+
+  // 6. Outro 18-22
+  sceneVis($("s6"), t, 18.0, 99, 0.2);
+  const ip = back(prog(t, 18.1, 18.45));
+  $("icon").style.opacity = clamp(prog(t, 18.1, 18.2));
+  $("icon").style.transform = `scale(${0.5 + 0.5 * ip}) rotate(${(1 - clamp(prog(t, 18.1, 18.45))) * -12}deg)`;
+  appear($("s6b"), t, 18.2, 0.3, 16);
+  appear($("s6t"), t, 18.3, 0.35, 30);
+  appear($("s6g"), t, 18.55, 0.35, 30);
+  appear($("install"), t, 18.85, 0.3, 20);
+  typeText($("install"), INSTALL, t, 19.0, 20.0);
+  appear($("s6f"), t, 19.6, 0.35, 16);
+  appear($("s6u"), t, 19.9, 0.35, 16);
+
+  // brand tag: present through the middle scenes
+  const tagIn = easeOut(prog(t, 3.3, 3.6)), tagOut = 1 - easeIn(prog(t, 17.7, 18.0));
+  $("tag").style.opacity = 0.8 * Math.min(tagIn, tagOut);
+};
+
+window.ready = (async () => { await document.fonts.ready; render(0); return true; })();
+</script>
+</body>
+</html>

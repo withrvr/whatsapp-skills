@@ -17,6 +17,11 @@
   <img src="https://img.shields.io/badge/license-MIT-22C55E" alt="MIT license">
 </p>
 
+<p align="center">
+  <a href="media/launch/launch.mp4"><img src="media/launch/launch-preview.gif" alt="22-second launch video: messy notes become a ready-to-paste WhatsApp message" width="480"></a><br>
+  <sub>▶ <a href="media/launch/launch.mp4">Watch the launch video with sound</a> (22 seconds)</sub>
+</p>
+
 ---
 
 You know the situation. Your manager needs to know you're late, the society group
