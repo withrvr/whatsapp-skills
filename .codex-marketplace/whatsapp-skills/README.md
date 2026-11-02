@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="media/launch/launch.mp4"><img src="media/launch/launch-preview.gif" alt="22-second launch video: messy notes become a ready-to-paste WhatsApp message" width="480"></a><br>
-  <sub>▶ <a href="media/launch/launch.mp4">Watch the launch video with sound</a> (22 seconds)</sub>
+  <img src="media/demo/demo.gif" alt="Demo: messy notes become a WhatsApp message, AI formatting gets fixed, private details get masked" width="800"><br>
+  <sub>🎬 <a href="media/launch/launch.mp4">Launch video with sound</a> (22 seconds)</sub>
 </p>
 
 ---
@@ -167,17 +167,17 @@ Markdown input, and phone numbers that must be masked. `scripts/run_evals.py`
 runs each prompt through Claude Code with and without the skills and grades the
 output with deterministic checks.
 
-| | Checks passed | Responses with an em/en dash |
+| Out of 33 test requests | Plain AI | With the skills |
 |---|---|---|
-| With these skills | **99%** | **0 of 33** |
-| Same model, no skills | 60% | 11 of 33 |
+| Messages with `**stars**` showing instead of bold | 25 | **0** |
+| Messages with em or en dashes | 10 | **0** |
+| All automated checks passed (formatting, dates, facts, safety) | 60% | **99%** |
 
-Without the skills, the same model put Markdown `**bold**` (which WhatsApp shows as
-literal asterisks) into 26 of 33 answers, used dashes in 11, left a phone number
-visible when asked to hide them, and answered "write my status" with 240 to 880
-characters of options instead of one status. With the skills, a matching skill
-picked itself up in 32 of 33 runs without being named; the other was a one-line
-typo fix the model did directly.
+Same model and same requests both times; only the skills changed. Without them
+the model also left a phone number visible when asked to hide them, and answered
+"write my status" with 240 to 880 characters of options instead of one status.
+With the skills, a matching skill picked itself up in 32 of 33 runs without being
+named; the other was a one-line typo fix the model did directly.
 
 ## Repository layout
 

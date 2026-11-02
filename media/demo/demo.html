@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- README demo: silent 15 s loop, 1280x720. Every frame is a pure function of time. -->
+<style>
+  :root { --accent: #1FA855; --accent-2: #7EE2A8; --text: #F2F7F3; --muted: #93AB9D;
+    --card: rgba(255,255,255,0.055); --line: rgba(255,255,255,0.10); --red: #FF6B6B; --amber: #FFB86B; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; }
+  body { font-family: "Inter", "Noto Color Emoji", sans-serif; color: var(--text);
+    background: radial-gradient(circle at 20% 10%, rgba(31,168,85,0.25) 0%, rgba(31,168,85,0) 45%),
+                linear-gradient(160deg, #0A1E13 0%, #061109 60%, #040B07 100%); }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  .abs { position: absolute; }
+  .title { left: 0; right: 0; top: 34px; text-align: center; font-size: 46px; font-weight: 800; letter-spacing: -1.5px; }
+  .chipRow { left: 0; right: 0; top: 104px; text-align: center; }
+  .chip { display: inline-block; padding: 7px 20px; border-radius: 999px; font-size: 22px; font-family: "DejaVu Sans Mono", monospace;
+    border: 1.5px solid rgba(126,226,168,0.55); color: var(--accent-2); background: rgba(31,168,85,0.10); }
+  .panel { top: 186px; width: 540px; height: 430px; border-radius: 28px; padding: 26px 28px; background: var(--card); border: 1px solid var(--line); }
+  .left { left: 70px; } .right { left: 670px; }
+  .label { font-size: 18px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 16px; }
+  .mono { font-family: "DejaVu Sans Mono", monospace; }
+  .notes { font-size: 25px; line-height: 1.5; color: #D4E6DA; }
+  .caret { display: inline-block; width: 3px; height: 1em; background: var(--accent-2); vertical-align: -0.12em; margin-left: 2px; }
+  .bubble { border-radius: 22px 22px 6px 22px; background: #17603A; padding: 20px 22px; font-size: 23px; line-height: 1.45; }
+  .bubble .l { margin-bottom: 7px; }
+  .link { color: #A9E4FF; text-decoration: underline; text-underline-offset: 3px; }
+  .arrow { left: 616px; top: 380px; width: 48px; text-align: center; font-size: 40px; color: var(--accent-2); font-weight: 800; }
+  .raw { border-radius: 18px; background: #262C29; padding: 18px 20px; font-size: 24px; line-height: 1.5; color: #E6EAE7; }
+  .hl { border-radius: 5px; padding: 0 2px; }
+  .lint { margin-top: 18px; border-radius: 16px; background: #030805; border: 1px solid var(--line); padding: 14px 18px; font-size: 18px; line-height: 1.9; }
+  .x { color: var(--red); } .code { color: var(--amber); }
+  .ok { margin-top: 16px; font-size: 22px; font-weight: 700; color: var(--accent-2); }
+  .chat { font-size: 21px; line-height: 1.55; }
+  .chat .t { color: #7F978A; }
+  .chat .who { color: #9FD8B5; font-weight: 700; }
+  .chat .l { margin-bottom: 12px; }
+  .mask { background: rgba(31,168,85,0.22); color: var(--accent-2); border-radius: 5px; padding: 0 4px; font-weight: 600; }
+  .key { margin-top: 10px; font-size: 18px; color: var(--muted); }
+  #brand { left: 28px; bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; color: #C9DDD0; opacity: 0.8; }
+  #brand svg { width: 30px; height: 30px; }
+  #dots { right: 30px; bottom: 26px; display: flex; gap: 10px; }
+  .d { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.18); }
+</style>
+</head>
+<body>
+
+<!-- 1. Notes in, message out -->
+<div class="scene" id="s1">
+  <div class="abs title">Messy notes in. <span style="color:var(--accent-2)">WhatsApp message out.</span></div>
+  <div class="abs chipRow"><span class="chip">/whatsapp-announcement</span></div>
+  <div class="abs panel left"><div class="label">your notes</div><div class="mono notes" id="notes"></div></div>
+  <div class="abs arrow" id="a1">→</div>
+  <div class="abs panel right" id="p1r"><div class="label">ready to paste</div>
+    <div class="bubble" id="b1">
+      <div class="l">📢 <b>All-hands moved to Thu, 5 Nov, 11 am</b></div>
+      <div class="l">It was on <s>Fri, 6 Nov, 4 pm</s>. Our CEO is travelling.</div>
+      <div class="l">🔗 <b>Zoom:</b> <span class="link">https://zoom.us/j/8812345678</span></div>
+      <div class="l">📝 <b>Questions:</b> by Wed end of day</div>
+      <div class="l">Anita, HR</div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Fixes what AI gets wrong -->
+<div class="scene" id="s2">
+  <div class="abs title">Fixes what AI gets wrong <span style="color:var(--accent-2)">for WhatsApp.</span></div>
+  <div class="abs chipRow"><span class="chip">/whatsapp-formatter</span></div>
+  <div class="abs panel left"><div class="label">typical AI draft</div>
+    <div class="raw"><span class="hl" id="h1">**</span>All-hands moved<span class="hl" id="h2">**</span> <span class="hl" id="h3">—</span> <span class="hl" id="h4">Thursday, 6 Nov</span>, 11 am. Questions <span class="hl" id="h5">—</span> by Wednesday.</div>
+    <div class="lint mono">
+      <div id="k1"><span class="x">✗</span> <span class="code">MD_BOLD </span> stars show in WhatsApp</div>
+      <div id="k2"><span class="x">✗</span> <span class="code">EM_DASH </span> reads as AI</div>
+      <div id="k3"><span class="x">✗</span> <span class="code">WEEKDAY </span> 6 Nov 2026 is a Friday</div>
+    </div>
+  </div>
+  <div class="abs arrow" id="a2">→</div>
+  <div class="abs panel right" id="p2r"><div class="label">fixed</div>
+    <div class="bubble" id="b2">
+      <div class="l">📢 <b>All-hands moved to Thu, 5 Nov, 11 am</b></div>
+      <div class="l">Questions by Wed end of day.</div>
+    </div>
+    <div class="ok" id="ok2">✓ ready to paste</div>
+  </div>
+</div>
+
+<!-- 3. Masks private details -->
+<div class="scene" id="s3">
+  <div class="abs title">Hides private details <span style="color:var(--accent-2)">before you share.</span></div>
+  <div class="abs chipRow"><span class="chip">/whatsapp-redact</span></div>
+  <div class="abs panel left"><div class="label">chat you want to post</div>
+    <div class="chat">
+      <div class="l"><span class="t">8:01 PM</span> <span class="who">Anil Kapoor:</span> Electrician Raju is good, call him 98201 77889</div>
+      <div class="l"><span class="t">8:03 PM</span> <span class="who">Shalini Verma:</span> Fixed my geyser in flat D-504 for ₹650. My number 98330 66554</div>
+      <div class="l"><span class="t">8:05 PM</span> <span class="who">Anil Kapoor:</span> UPI him at raju.elec@okaxis</div>
+    </div>
+  </div>
+  <div class="abs arrow" id="a3">→</div>
+  <div class="abs panel right" id="p3r"><div class="label">safe to share</div>
+    <div class="chat">
+      <div class="l" id="m1"><span class="t">8:01 PM</span> <span class="who"><span class="mask">Person A</span>:</span> Electrician Raju is good, call him <span class="mask">[phone 1]</span></div>
+      <div class="l" id="m2"><span class="t">8:03 PM</span> <span class="who"><span class="mask">Person B</span>:</span> Fixed my geyser in flat <span class="mask">[flat no.]</span> for ₹650. My number <span class="mask">[phone 2]</span></div>
+      <div class="l" id="m3"><span class="t">8:05 PM</span> <span class="who"><span class="mask">Person A</span>:</span> UPI him at <span class="mask">[UPI ID]</span></div>
+    </div>
+    <div class="key" id="key3">The key (Person A = …) stays with you.</div>
+  </div>
+</div>
+
+<div class="abs" id="brand">
+  <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#1FA855"/><path d="M14 18a6 6 0 0 1 6-6h24a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H27l-9 8v-8h-0a4 4 0 0 1-4-4z" fill="#ffffff"/></svg>
+  whatsapp-skills · 11 skills for WhatsApp messages
+</div>
+<div class="abs" id="dots"><div class="d" id="d0"></div><div class="d" id="d1"></div><div class="d" id="d2"></div></div>
+
+<script>
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = x => 1 - Math.pow(1 - clamp(x), 3);
+const easeIn = x => Math.pow(clamp(x), 3);
+const $ = id => document.getElementById(id);
+function appear(el, t, at, dur = 0.35, dy = 16) {
+  const p = easeOut(prog(t, at, at + dur));
+  el.style.opacity = p; el.style.transform = `translateY(${(1 - p) * dy}px)`;
+}
+function sceneVis(el, t, start, end) {
+  if (t < start || t >= end) { el.style.opacity = 0; return; }
+  const i = easeOut(prog(t, start, start + 0.35)), o = 1 - easeIn(prog(t, end - 0.35, end));
+  el.style.opacity = Math.min(i, o);
+}
+const NOTES = "all hands moved fri 4pm → thu 11am, ceo travelling. same zoom link. qs by wed. from anita hr";
+
+window.render = function (t) {
+  t = ((t % 15) + 15) % 15;  // seamless loop
+  // 1. notes -> message (0-5)
+  sceneVis($("s1"), t, 0, 5);
+  const n = Math.floor(NOTES.length * prog(t, 0.3, 2.0));
+  $("notes").innerHTML = NOTES.slice(0, n).replace(/&/g, "&amp;") + (t < 2.4 || Math.floor(t * 2.5) % 2 ? '<span class="caret"></span>' : "");
+  appear($("a1"), t, 2.0, 0.3, 0);
+  appear($("p1r"), t, 2.1, 0.35);
+  document.querySelectorAll("#b1 .l").forEach((l, i) => appear(l, t, 2.3 + i * 0.2, 0.3, 10));
+
+  // 2. fixes (5-10)
+  sceneVis($("s2"), t, 5, 10);
+  [["k1", 5.8, ["h1", "h2"]], ["k2", 6.2, ["h3", "h5"]], ["k3", 6.6, ["h4"]]].forEach(([k, at, hs]) => {
+    appear($(k), t, at, 0.25, 0);
+    hs.forEach(h => { const p = easeOut(prog(t, at, at + 0.25));
+      $(h).style.background = `rgba(255,107,107,${0.32 * p})`; $(h).style.boxShadow = `inset 0 -3px 0 rgba(255,107,107,${p})`; });
+  });
+  appear($("a2"), t, 7.0, 0.3, 0);
+  appear($("p2r"), t, 7.1, 0.35);
+  appear($("ok2"), t, 7.6, 0.3, 8);
+
+  // 3. redact (10-15)
+  sceneVis($("s3"), t, 10, 15);
+  appear($("a3"), t, 11.2, 0.3, 0);
+  appear($("p3r"), t, 11.3, 0.35);
+  ["m1", "m2", "m3"].forEach((m, i) => appear($(m), t, 11.5 + i * 0.3, 0.3, 10));
+  appear($("key3"), t, 12.6, 0.35, 8);
+
+  // progress dots
+  [0, 1, 2].forEach(i => { $("d" + i).style.background = Math.floor(t / 5) === i ? "#7EE2A8" : "rgba(255,255,255,0.18)"; });
+};
+window.ready = (async () => { await document.fonts.ready; render(0); return true; })();
+</script>
+</body>
+</html>

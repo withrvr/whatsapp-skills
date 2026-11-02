@@ -69,12 +69,13 @@
   .sk .d { font-size: 18px; color: var(--muted); margin-top: 4px; }
   .sk.big { background: rgba(31,168,85,0.16); border-color: rgba(126,226,168,0.45); }
   /* scene 5 */
-  .bar { position: absolute; left: 110px; width: 860px; }
-  .barTop { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; }
-  .barName { font-size: 30px; font-weight: 600; }
-  .barVal { font-size: 72px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
-  .track { height: 38px; border-radius: 19px; background: rgba(255,255,255,0.08); overflow: hidden; }
-  .fill { height: 100%; border-radius: 19px; }
+  .cmpRow { display: grid; grid-template-columns: 360px 270px 270px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .cmpHead { padding-top: 0; }
+  .ch { font-size: 28px; font-weight: 700; text-align: center; }
+  .rl { font-size: 30px; font-weight: 600; line-height: 1.25; }
+  .num { font-size: 96px; font-weight: 800; letter-spacing: -3px; text-align: center; line-height: 1; }
+  .num.bad { color: #FF8A8A; }
+  .num.good { color: var(--accent-2); }
   /* scene 6 */
   #icon { left: 460px; top: 150px; width: 160px; height: 160px; }
   #install { left: 90px; width: 900px; top: 700px; padding: 26px 30px; border-radius: 22px; background: #030805;
@@ -146,17 +147,13 @@
 
 <!-- 5. Highlight: proof -->
 <div class="scene" id="s5">
-  <div class="abs center h1" id="s5h" style="top: 150px; font-size: 68px;">Tested on 33 real prompts.</div>
-  <div class="abs center" id="s5s" style="top: 248px; font-size: 32px; color: var(--muted);">Same model. With and without the skills.</div>
-  <div class="bar" id="b1" style="top: 400px;">
-    <div class="barTop"><div class="barName">with whatsapp-skills</div><div class="barVal accent" id="v1">0%</div></div>
-    <div class="track"><div class="fill" id="f1" style="background: linear-gradient(90deg, #1FA855, #7EE2A8); width: 0%"></div></div>
+  <div class="abs center h1" id="s5h" style="top: 130px; font-size: 64px;">We tested 33 everyday<br>WhatsApp messages.</div>
+  <div class="abs" id="cmp" style="left: 90px; width: 900px; top: 400px;">
+    <div class="cmpRow cmpHead"><div></div><div class="ch" style="color: var(--muted)">Plain AI</div><div class="ch accent">With the skills</div></div>
+    <div class="cmpRow" id="r1"><div class="rl"><span class="mono" style="color:#F2B5B5">**stars**</span> showing<br>instead of bold</div><div class="num bad" id="n1">0</div><div class="num good" id="g1">0</div></div>
+    <div class="cmpRow" id="r2"><div class="rl">Em dashes<br>in the message</div><div class="num bad" id="n2">0</div><div class="num good" id="g2">0</div></div>
   </div>
-  <div class="bar" id="b2" style="top: 610px;">
-    <div class="barTop"><div class="barName" style="color: var(--muted)">same model, no skills</div><div class="barVal" id="v2" style="color:#B9C7BF">0%</div></div>
-    <div class="track"><div class="fill" id="f2" style="background: #5A6B62; width: 0%"></div></div>
-  </div>
-  <div class="abs center" id="s5f" style="top: 830px; font-size: 26px; color: var(--muted);">of automated checks passed: formatting, dates, facts, no em dashes</div>
+  <div class="abs center" id="s5f" style="top: 900px; font-size: 28px; color: var(--muted);">Same model, same 33 requests. Only the skills changed.</div>
 </div>
 
 <!-- 6. Outro -->
@@ -278,16 +275,19 @@ window.render = function (t) {
     c.style.transform = `scale(${0.6 + 0.4 * back(prog(t, at, at + 0.3))})`;
   });
 
-  // 5. Proof 15-18
+  // 5. Proof 15-18: counts anyone can read
   sceneVis($("s5"), t, 15.0, 18.0);
   appear($("s5h"), t, 15.05, 0.35);
-  appear($("s5s"), t, 15.3, 0.35);
-  appear($("b1"), t, 15.45, 0.3);
-  appear($("b2"), t, 15.6, 0.3);
-  const p1 = easeOut(prog(t, 15.6, 16.6)), p2 = easeOut(prog(t, 15.8, 16.8));
-  $("f1").style.width = (99 * p1) + "%"; $("v1").textContent = Math.round(99 * p1) + "%";
-  $("f2").style.width = (60 * p2) + "%"; $("v2").textContent = Math.round(60 * p2) + "%";
-  appear($("s5f"), t, 16.4, 0.35);
+  appear($("cmp"), t, 15.3, 0.35);
+  const c1 = easeOut(prog(t, 15.5, 16.3)), c2 = easeOut(prog(t, 15.75, 16.5));
+  $("n1").textContent = Math.round(25 * c1);
+  $("n2").textContent = Math.round(10 * c2);
+  ["g1", "g2"].forEach((id, i) => {
+    const at = 16.0 + i * 0.25, p = back(prog(t, at, at + 0.3));
+    $(id).style.opacity = clamp(prog(t, at, at + 0.1));
+    $(id).style.transform = `scale(${0.6 + 0.4 * p})`;
+  });
+  appear($("s5f"), t, 16.5, 0.35);
 
   // 6. Outro 18-22
   sceneVis($("s6"), t, 18.0, 99, 0.2);
