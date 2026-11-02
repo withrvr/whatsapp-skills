@@ -127,3 +127,16 @@ Dials: short · respectful · plain.
 ### Student to teacher / professor
 Shape: name + roll no./class → the question or request (extension, doubt, recommendation) → deadline context → thanks.
 Avoid: late-night messages framed as urgent; mention in Notes if the brief implies it.
+
+## Voice notes
+
+### Script for a voice note
+When the user would rather speak than type (an elder, a long explanation, a warm
+thank-you), write what to *say*, not what to read:
+Shape: greeting by name → the point in the first sentence → 2-3 short spoken
+sentences → the ask or goodbye. Aim for 30-60 seconds (about 80-150 words).
+Spoken style: contractions, no lists, no links (send links as text after), no
+emoji, numbers said the way people say them ("eighteen thousand five hundred").
+Deliver it in a `text` block labeled `Voice note script`, and suggest sending
+any link or number as a text message right after.
+

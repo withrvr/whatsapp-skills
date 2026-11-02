@@ -6,15 +6,21 @@ All notable changes to this project. Versions follow [semver](https://semver.org
 
 First release.
 
-- 8 skills: `whatsapp-message`, `whatsapp-reply`, `whatsapp-announcement`,
+- 11 skills: `whatsapp-message`, `whatsapp-reply`, `whatsapp-announcement`,
   `whatsapp-invitation`, `whatsapp-promotion`, `whatsapp-status`,
-  `whatsapp-channel`, `whatsapp-formatter`.
+  `whatsapp-channel`, `whatsapp-formatter`, `whatsapp-redact`, `whatsapp-setup`,
+  `whatsapp-catchup`.
 - Shared references: WhatsApp formatting, message dials, writing rules,
   links/media/mentions.
-- `wa_lint.py`: pre-send checker and Markdown-to-WhatsApp converter (standard library only).
+- `wa_lint.py`: pre-send checker, Markdown-to-WhatsApp converter, and sensitive-data
+  finder and masker with Luhn, Verhoeff and IBAN checksums (standard library only).
+- `wa_chat.py`: WhatsApp chat-export parser for Android and iPhone formats.
+- New scenarios: order, delivery and payment messages, cart reminders, broadcast
+  welcomes, job openings, urgent help requests, minutes, stand-ups, buy-sell-rent
+  posts, event recaps, voice-note scripts.
 - Plugin manifests for Claude (claude.ai, Desktop, Claude Code) and OpenAI (Codex, ChatGPT).
-- 131-scenario catalog, install and usage docs.
-- 24 evals in the Agent Skills format with a runner that compares with and without skills.
+- 170-scenario catalog, install and usage docs.
+- 33 evals in the Agent Skills format with a runner that compares with and without skills.
 - Voice rules: no em or en dashes anywhere in a message (lint error, `--fix` removes
   them), names capitalised as given, AI and email vocabulary list, specific over vague,
   one point per message, name-only sign-offs.

@@ -1,0 +1,121 @@
+{
+  "skill_name": "whatsapp-catchup",
+  "evals": [
+    {
+      "id": 1,
+      "name": "what-did-i-miss-latest-wins",
+      "prompt": "what did I miss? I'm Priya.\n[01/11/26, 9:05:40 PM] Rakesh Secretary: Dear all, AGM is on Sun, 15 Nov at 11 am in the clubhouse.\n[01/11/26, 9:07:02 PM] Meera B-1204: Can we also discuss the lift?\n[01/11/26, 9:30:00 PM] Rakesh Secretary: Yes added. @Priya please share last year accounts by Fri\n[02/11/26, 8:10:00 AM] Rakesh Secretary: Correction: AGM moved to the terrace hall, clubhouse is under repair\n[02/11/26, 8:12:00 AM] Sunil A-301: 👍",
+      "expected_output": "A short catch-up: AGM Sun 15 Nov 11 am in the terrace hall (moved from the clubhouse), lift added to agenda, and Priya must share last year's accounts by Fri 6 Nov.",
+      "files": [],
+      "assertions": [
+        "AGM date and time given",
+        "Venue reported as the terrace hall (latest), noting it changed",
+        "The ask of Priya with its deadline",
+        "Short"
+      ],
+      "checks": [
+        {
+          "type": "response_regex",
+          "pattern": "15 nov",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "terrace",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "accounts",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "fri",
+          "flags": "i"
+        },
+        {
+          "type": "response_not_regex",
+          "pattern": "[—–]",
+          "why": "no em or en dashes"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "minutes-to-post",
+      "prompt": "write the minutes of this discussion to post in our team group:\n[09/11/26, 6:01:00 PM] Sana: Launch moves to Mon 23 Nov, QA needs one more week\n[09/11/26, 6:02:10 PM] Kunal: Ok. I'll update the release notes by Fri 20 Nov\n[09/11/26, 6:03:30 PM] Arjun: I'll fix the 3 payment bugs by Wed 18 Nov\n[09/11/26, 6:05:00 PM] Priya: Do we tell the client today or tomorrow?\n[09/11/26, 6:06:00 PM] Sana: Let's decide in tomorrow's standup",
+      "expected_output": "A WhatsApp-ready minutes block: decided launch Mon 23 Nov; actions Kunal (release notes, Fri 20 Nov) and Arjun (payment bugs, Wed 18 Nov); open: when to tell the client.",
+      "files": [],
+      "assertions": [
+        "Launch date decided as Mon 23 Nov",
+        "Action items with owners and deadlines",
+        "Telling the client is listed as open, not decided"
+      ],
+      "checks": [
+        {
+          "type": "message_count",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "type": "regex",
+          "pattern": "action",
+          "flags": "i"
+        },
+        {
+          "type": "icontains",
+          "value": "Kunal"
+        },
+        {
+          "type": "icontains",
+          "value": "Arjun"
+        },
+        {
+          "type": "regex",
+          "pattern": "23 nov",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "announcement",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "proposal-is-not-a-decision",
+      "prompt": "summarise this, was anything decided?\n[10/11/26, 7:00:00 PM] Meera: Should we change the cleaning agency? They missed 3 days\n[10/11/26, 7:02:00 PM] Sunil: Maybe, but the new one is costlier\n[10/11/26, 7:05:00 PM] Rakesh: Let's see quotes first\n[10/11/26, 7:10:00 PM] Meera: Ok. Also Diwali decoration contribution is ₹500 per flat, pay by Sun 15 Nov, everyone agreed in the meeting",
+      "expected_output": "Reports the ₹500 Diwali contribution by Sun 15 Nov as decided, and the cleaning agency change as still open (quotes first), not decided.",
+      "files": [],
+      "assertions": [
+        "Diwali contribution ₹500 by Sun 15 Nov reported as decided",
+        "Cleaning agency change reported as open or proposed, not decided"
+      ],
+      "checks": [
+        {
+          "type": "response_regex",
+          "pattern": "500",
+          "flags": "i"
+        },
+        {
+          "type": "response_regex",
+          "pattern": "(open|not (yet )?decided|undecided|no decision|proposed|quotes first|pending)",
+          "flags": "i"
+        },
+        {
+          "type": "response_not_regex",
+          "pattern": "decided:?[^\\n]{0,60}(change|new) (the )?cleaning agency",
+          "flags": "i"
+        }
+      ]
+    }
+  ]
+}

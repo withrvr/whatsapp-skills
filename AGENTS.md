@@ -6,7 +6,7 @@ the skills in `skills/`: describe the situation and the matching skill applies.
 
 ## What this repo is
 
-Eight [Agent Skills](https://agentskills.io/specification) that turn a user's
+Eleven [Agent Skills](https://agentskills.io/specification) that turn a user's
 context into a ready-to-paste WhatsApp message. Draft-only: no sending, no
 WhatsApp API, no automation, no network calls. Keep it that way.
 

@@ -127,7 +127,7 @@
         },
         {
           "type": "regex",
-          "pattern": "7 ?pm",
+          "pattern": "7(?::00)? ?pm",
           "flags": "i"
         },
         {

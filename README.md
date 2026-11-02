@@ -6,11 +6,11 @@
 
 <p align="center">
   <b>Give the context once. Get the WhatsApp message to paste.</b><br>
-  8 open-source Agent Skills for Claude, ChatGPT/Codex and any agent that reads <code>SKILL.md</code>.
+  11 open-source Agent Skills for Claude, ChatGPT/Codex and any agent that reads <code>SKILL.md</code>.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/skills-8-1FA855" alt="8 skills">
+  <img src="https://img.shields.io/badge/skills-11-1FA855" alt="11 skills">
   <img src="https://img.shields.io/badge/Agent_Skills-spec-6E56CF" alt="Agent Skills spec">
   <img src="https://img.shields.io/badge/Claude-plugin-D97757" alt="Claude plugin">
   <img src="https://img.shields.io/badge/Codex%20%2F%20ChatGPT-plugin-111827" alt="Codex / ChatGPT plugin">
@@ -50,16 +50,19 @@ automates anything. You copy, you paste, you send. No accounts, no API keys.
 
 | Skill | Use it for |
 |---|---|
-| **`whatsapp-message`** | Any 1:1 or small-chat message: boss, HR, recruiter, client, landlord, a new contact, friends, family. Leave, late, follow-ups, payment nudges, apologies, congratulations, condolences. |
+| **`whatsapp-message`** | Any 1:1 or small-chat message: boss, HR, recruiter, client, landlord, a new contact, friends, family. Leave, late, follow-ups, payment nudges, apologies, congratulations, condolences. Voice-note scripts too. |
 | **`whatsapp-reply`** | Paste what you received (or a screenshot) and say what you want: yes, no, later, a counter-offer. Answers every question they asked. Spots scams instead of replying to them. |
-| **`whatsapp-announcement`** | Group, community and broadcast notices: meetings, schedule changes, alerts, fee dues, PTMs, study material with links, holidays, rules, fundraisers. |
+| **`whatsapp-announcement`** | Group, community and broadcast notices: meetings, schedule changes, alerts, fee dues, PTMs, study material with links, holidays, rules, fundraisers, job openings, urgent blood or help requests, minutes, stand-ups, buy-sell-rent posts, event recaps. |
 | **`whatsapp-invitation`** | Weddings (every function), birthdays, griha pravesh, poojas, baby showers, reunions, office parties, plus save-the-date, reminder and thank-you messages. English, Hinglish, Hindi or bilingual. |
-| **`whatsapp-promotion`** | Offers, festive sales, launches, new arrivals, courses and webinars, service reminders, review and referral asks, listings. Honest terms, one call to action, opt-out line. |
+| **`whatsapp-promotion`** | Offers, festive sales, launches, new arrivals, courses and webinars, service reminders, review and referral asks, listings, plus order confirmed, shipped and delivered, payment received or due, cart reminders and broadcast welcomes. Honest terms, one call to action, opt-out line. |
 | **`whatsapp-status`** | Text status (700-character limit), photo/video captions, and 2-5 status slides. |
 | **`whatsapp-channel`** | Channel posts and series ("Day 7/30"), roundups, welcome posts, polls, with consistent numbering and format. |
 | **`whatsapp-formatter`** | Turn ChatGPT/Claude Markdown, emails or notes into WhatsApp formatting without rewriting them. Fix typos in your voice. Or just check a message before you send it. |
+| **`whatsapp-redact`** | Mask phone numbers, emails, UPI and bank details, cards, OTPs, Aadhaar, PAN, names and addresses before you forward a chat, warn a group about a scam, or paste into an AI. Checksum-validated detection, consistent stand-ins like `Person A` and `[phone 1]`. |
+| **`whatsapp-setup`** | The text you write once: WhatsApp Business description, greeting and away messages, quick replies, catalog items, labels, your About line, and group, community and channel names, descriptions and rules. |
+| **`whatsapp-catchup`** | Paste or export a busy group chat and get what you missed: decisions, dates, what's asked of you, links, open questions. Then the minutes or recap to post back. |
 
-131 everyday scenarios and the skill that handles each: **[docs/SCENARIOS.md](docs/SCENARIOS.md)**.
+170 everyday scenarios and the skill that handles each: **[docs/SCENARIOS.md](docs/SCENARIOS.md)**.
 
 ## Install
 
@@ -118,7 +121,7 @@ More on briefing, dials and standing preferences: **[docs/USAGE.md](docs/USAGE.m
 - **Facts are copied, never invented.** Links character for character, numbers, names and amounts exact. If something essential is missing you get a `[placeholder]` and a note, not a guess.
 - **Weekday ↔ date checking.** "Friday, 7 Nov" when 7 Nov is a Saturday gets caught and flagged.
 - **Built for the chat bubble.** The point in the first two lines, short blocks, labeled logistics (📅 ⏰ 📍), links that get a preview, captions that work with media, notes on re-tagging `@mentions`.
-- **A checker in every skill.** [`wa_lint.py`](shared/scripts/wa_lint.py) (Python standard library only) checks each draft before it's handed over: Markdown leaks, markers that won't render, broken links, weekday/date mismatches, the 700-character status limit, placeholders, chain-message patterns. `--fix` converts Markdown to WhatsApp.
+- **A checker in every skill.** [`wa_lint.py`](shared/scripts/wa_lint.py) (Python standard library only) checks each draft before it's handed over: Markdown leaks, markers that won't render, broken links, any em or en dash, weekday/date mismatches, the 700-character status limit, placeholders, chain-message patterns, card/Aadhaar/PAN/OTP numbers. `--fix` converts Markdown to WhatsApp; `--redact` masks sensitive values.
 
 ## Voice rules
 
@@ -151,21 +154,25 @@ welcome as contributions ([CONTRIBUTING.md](CONTRIBUTING.md)).
 ## Tested against a real model
 
 Every skill ships evals in the [Agent Skills format](https://agentskills.io/skill-creation/evaluating-skills)
-(`skills/*/evals/evals.json`): 24 realistic prompts, including traps like a
+(`skills/*/evals/evals.json`): 33 realistic prompts, including traps like a
 weekday that doesn't match its date, a request for fake "only 2 hours left"
-urgency, a "Hi Mom, new number" scam, Devanagari output and Markdown input.
-`scripts/run_evals.py` runs each prompt through Claude Code with and without the
-skills and grades the output with deterministic checks.
+urgency, a "Hi Mom, new number" scam, a venue that changes halfway through a
+chat, a suggestion that must not be reported as a decision, Devanagari output,
+Markdown input, and phone numbers that must be masked. `scripts/run_evals.py`
+runs each prompt through Claude Code with and without the skills and grades the
+output with deterministic checks.
 
 | | Checks passed | Responses with an em/en dash |
 |---|---|---|
-| With these skills | **99%** | **0 of 24** |
-| Same model, no skills | 60% | 10 of 24 |
+| With these skills | **99%** | **0 of 33** |
+| Same model, no skills | 60% | 11 of 33 |
 
 Without the skills, the same model put Markdown `**bold**` (which WhatsApp shows as
-literal asterisks) into 19 of 24 answers, used dashes in 10, and answered "write my
-status" with 740 to 1,150 characters of options instead of one status. With the
-skills, the right one picked itself up in all 24 runs without being named.
+literal asterisks) into 26 of 33 answers, used dashes in 11, left a phone number
+visible when asked to hide them, and answered "write my status" with 240 to 880
+characters of options instead of one status. With the skills, a matching skill
+picked itself up in 32 of 33 runs without being named; the other was a one-line
+typo fix the model did directly.
 
 ## Repository layout
 
@@ -173,8 +180,9 @@ skills, the right one picked itself up in all 24 runs without being named.
 skills/<name>/            one folder per skill, self-contained (spec-compliant)
   SKILL.md                instructions + shared core rules
   references/             playbooks, examples, shared formatting/dials/rules
-  scripts/wa_lint.py      the pre-send checker
+  scripts/wa_lint.py      the pre-send checker and sensitive-data masker
   evals/evals.json        test prompts, assertions and checks
+skills/whatsapp-catchup/scripts/wa_chat.py   chat-export parser
 shared/                   single source for everything copied into skills
 scripts/                  sync, validate, evals, zip builder
 docs/                     install, usage, scenario catalog

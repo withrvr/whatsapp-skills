@@ -72,6 +72,34 @@ When a native WhatsApp feature would beat a text message (headcount, choosing a
 date, an event people should RSVP to, a notice people must find again), the notes
 suggest it and give you the exact poll question and options to type in.
 
+## Hiding sensitive details
+
+Paste the text and say who will see it: *"hide names and numbers, posting in the
+building group"*. You get the masked text plus a private key (Person A = …).
+Say *light* (numbers and IDs only), *partial* (keep the last 4 digits) or
+*full* (names, places and dates too). For a scam warning, the scammer's number
+stays visible on purpose. For evidence (police, bank, lawyer), don't redact:
+share the original export.
+
+Masking numbers yourself:
+
+```bash
+python3 shared/scripts/wa_lint.py --redact chat.txt
+```
+
+## Catching up on a busy group
+
+Export the chat (group name or ⋮ → More → **Export chat** → **Without media**),
+attach the `.txt`, and ask *"what did I miss? I'm Priya"* or *"anything for me
+since Friday?"*. Ask *"write the minutes to post"* for a WhatsApp-ready recap.
+
+## Setting up your business or group
+
+*"Set up my WhatsApp Business: description, greeting, away message and quick
+replies. Home bakery in Baner, open 10 to 8, order 2 days ahead, UPI only"*. You
+get one block per field, labeled with where it goes. The same works for a
+group description with rules, a community, or a channel.
+
 ## Checking your own text
 
 Paste anything and say *"check this"* (report only), *"fix typos, keep my style"*

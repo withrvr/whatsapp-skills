@@ -1,0 +1,137 @@
+{
+  "skill_name": "whatsapp-redact",
+  "evals": [
+    {
+      "id": 1,
+      "name": "group-post-standard",
+      "prompt": "hide names and numbers in this before I post it in our society group:\n[05/11/26, 8:01:10 PM] Anil Kapoor: Electrician Raju is good, call him 98201 77889\n[05/11/26, 8:03:22 PM] Shalini Verma: He fixed my geyser in flat D-504 for ₹650. My number 98330 66554 if anyone wants details",
+      "expected_output": "The same two lines with Person A/B for the senders, phone numbers masked, the flat number masked, the ₹650 kept, and a private key in Notes.",
+      "files": [],
+      "assertions": [
+        "Sender names are replaced consistently",
+        "Both phone numbers are masked",
+        "Flat D-504 is masked",
+        "The ₹650 price is kept",
+        "A private key mapping stand-ins is given outside the block"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "not_contains",
+          "value": "98201 77889"
+        },
+        {
+          "type": "not_contains",
+          "value": "98330 66554"
+        },
+        {
+          "type": "not_contains",
+          "value": "Anil Kapoor"
+        },
+        {
+          "type": "not_contains",
+          "value": "Shalini Verma"
+        },
+        {
+          "type": "not_contains",
+          "value": "D-504"
+        },
+        {
+          "type": "contains",
+          "value": "650"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "[—–]",
+          "why": "no em or en dashes"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "scam-warning-keeps-scammer",
+      "prompt": "warn my office group about this scam, keep the scammer details so people can block, remove mine:\nFrom +91 88009 11223: \"Congrats! You won ₹25,00,000 in KBC lottery. Pay ₹4,999 tax to kbc.claim@ybl to receive\"\nMe: is this real? I am Deepak Rao, emp id 44821, my number 99000 12345",
+      "expected_output": "A scam warning that keeps the scammer's number and UPI ID visible and removes Deepak's name, employee ID and number.",
+      "files": [],
+      "assertions": [
+        "Scammer's number and UPI ID are visible",
+        "The user's name, employee ID and number are gone",
+        "Reads as a warning for the group"
+      ],
+      "checks": [
+        {
+          "type": "contains",
+          "value": "88009 11223"
+        },
+        {
+          "type": "contains",
+          "value": "kbc.claim@ybl"
+        },
+        {
+          "type": "not_contains",
+          "value": "99000 12345"
+        },
+        {
+          "type": "not_contains",
+          "value": "Deepak"
+        },
+        {
+          "type": "not_contains",
+          "value": "44821"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "announcement",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "card-otp-before-ai",
+      "prompt": "remove the sensitive stuff before I paste this into chatgpt: \"bhai card 4111 1111 1111 1111 exp 08/28 cvv 321, OTP 774512 aaya, mera PAN ABCPK1234L hai\"",
+      "expected_output": "The same sentence with the card, CVV, OTP and PAN masked, Hinglish wording unchanged.",
+      "files": [],
+      "assertions": [
+        "Card, CVV, OTP and PAN are all masked",
+        "The rest of the wording is unchanged"
+      ],
+      "checks": [
+        {
+          "type": "starts_with_message",
+          "why": "the message comes first, no preamble"
+        },
+        {
+          "type": "not_contains",
+          "value": "4111 1111 1111 1111"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "cvv\\s*321",
+          "flags": "i"
+        },
+        {
+          "type": "not_contains",
+          "value": "774512"
+        },
+        {
+          "type": "not_contains",
+          "value": "ABCPK1234L"
+        },
+        {
+          "type": "icontains",
+          "value": "bhai"
+        }
+      ]
+    }
+  ]
+}

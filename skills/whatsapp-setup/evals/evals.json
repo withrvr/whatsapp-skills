@@ -1,0 +1,144 @@
+{
+  "skill_name": "whatsapp-setup",
+  "evals": [
+    {
+      "id": 1,
+      "name": "salon-greeting-away",
+      "prompt": "set up the whatsapp business greeting and away message for my salon Glow Studio, Koregaon Park Pune, open 10am to 8pm, closed mondays, book on https://glowstudio.in/book",
+      "expected_output": "Two labeled blocks: a greeting that says who they reached and how to book, and an away message with the real hours including the Monday closure.",
+      "files": [],
+      "assertions": [
+        "Greeting and away message are separate labeled blocks",
+        "Hours 10 am to 8 pm and the Monday closure are stated",
+        "Booking link exact"
+      ],
+      "checks": [
+        {
+          "type": "message_count",
+          "min": 2,
+          "max": 4
+        },
+        {
+          "type": "contains",
+          "value": "https://glowstudio.in/book"
+        },
+        {
+          "type": "regex",
+          "pattern": "10(?::00)? ?am",
+          "flags": "i"
+        },
+        {
+          "type": "regex",
+          "pattern": "monday",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "quick-reply",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "[—–]",
+          "why": "no em or en dashes"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "about-line-limit",
+      "prompt": "write my whatsapp about line: freelance photographer in jaipur, weddings and travel",
+      "expected_output": "One About line under 139 characters.",
+      "files": [],
+      "assertions": [
+        "A single About line",
+        "Under 139 characters",
+        "Mentions photography and Jaipur"
+      ],
+      "checks": [
+        {
+          "type": "message_count",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "type": "max_chars",
+          "value": 139
+        },
+        {
+          "type": "icontains",
+          "value": "jaipur"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "about",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "[—–]",
+          "why": "no em or en dashes"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "parents-group-description",
+      "prompt": "group description with rules for our new parents whatsapp group of class 3B at St. Xavier's, for homework updates and school notices only, no forwards, admin is me Mrs. Pinto",
+      "expected_output": "A group description with the purpose, 3-5 numbered rules including no forwards, and Mrs. Pinto as admin.",
+      "files": [],
+      "assertions": [
+        "Purpose stated",
+        "Numbered rules include no forwards",
+        "Admin named as Mrs. Pinto"
+      ],
+      "checks": [
+        {
+          "type": "message_count",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "type": "regex",
+          "pattern": "^\\s*1\\.",
+          "flags": "m"
+        },
+        {
+          "type": "icontains",
+          "value": "3B"
+        },
+        {
+          "type": "icontains",
+          "value": "Pinto"
+        },
+        {
+          "type": "regex",
+          "pattern": "forward",
+          "flags": "i"
+        },
+        {
+          "type": "lint_clean",
+          "kind": "group-description",
+          "why": "wa_lint finds no errors"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "\\*\\*|^#{1,6} |\\[[^\\]\\n]+\\]\\(https?://",
+          "flags": "m",
+          "why": "no Markdown that WhatsApp shows literally"
+        },
+        {
+          "type": "not_regex",
+          "pattern": "[—–]",
+          "why": "no em or en dashes"
+        }
+      ]
+    }
+  ]
+}

@@ -35,7 +35,7 @@ are worth forwarding.
 - **First two lines carry the point** (what + when, or the ask). Short blocks, one blank line between them.
 - **Check weekday ↔ date**, am/pm, time zone and deadlines. Flag anything off in the user's brief.
 - **Dials:** length, tone, formatting, emoji, language. Explicit words from the user win, then the audience, then this skill's defaults (`references/message-dials.md`).
-- **Before delivering**, if you can run code: save the draft to a temp file with your file tool, then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` (absolute path, no shell variables). Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
+- **Before delivering**, if you can run code: save the draft to a temp file with your file-writing tool (not a shell heredoc), then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` as one standalone command: absolute paths, no `cd`, no `&&`, no shell variables, so it doesn't trip permission checks. Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
 <!-- END shared:core-rules -->
 
 ## Workflow
@@ -98,4 +98,5 @@ React 💰 if you've started yours.
 
 ## Related skills
 
-`whatsapp-status` (24-hour updates) · `whatsapp-announcement` (groups) · `whatsapp-promotion` (offers)
+`whatsapp-status` (24-hour updates) · `whatsapp-announcement` (groups) · `whatsapp-promotion` (offers) ·
+`whatsapp-setup` (channel name and description)

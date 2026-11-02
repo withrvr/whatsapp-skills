@@ -76,7 +76,7 @@
         },
         {
           "type": "regex",
-          "pattern": "4 ?pm",
+          "pattern": "4(?::00)? ?pm",
           "flags": "i"
         },
         {

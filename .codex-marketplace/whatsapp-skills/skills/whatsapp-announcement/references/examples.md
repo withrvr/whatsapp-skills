@@ -97,3 +97,36 @@ Same centre. The hall is booked for a board exam on Saturday.
 
 ✅ Bring your admit card.
 ```
+
+## 7. Urgent blood request (dated, verified contact)
+
+**Brief:** *urgent B+ blood 2 units for my uncle Suresh at Ruby Hall Clinic Pune, needed by 6 pm today, call my cousin Amit 98220 44556*
+
+```text
+🆘 *Urgent: B+ blood needed today, Tue, 3 Nov*
+
+2 units of B+ blood needed for Suresh at Ruby Hall Clinic, Pune, by 6 pm today.
+
+📞 Contact: Amit, 98220 44556
+
+Please share only if you can donate or know someone who can.
+```
+
+Notes:
+- Once it's arranged, post "Update: blood arranged, thank you all" so this stops being forwarded.
+
+## 8. Job opening in an alumni group
+
+**Brief:** *hiring at my company Finlo, backend engineer, 3 to 5 yrs, Go or Java, bangalore hybrid, apply https://finlo.in/careers/be by 20 nov, I can refer*
+
+```text
+💼 *Hiring: Backend Engineer, Finlo, Bangalore (hybrid)*
+
+You'd build the payments APIs that run our core product.
+- 3 to 5 years of experience
+- Go or Java
+
+📩 *Apply:* https://finlo.in/careers/be by *Fri, 20 Nov*
+
+Happy to refer anyone from the group, message me.
+```

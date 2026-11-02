@@ -88,3 +88,15 @@ ISHA BERLIN?! 🎉 Two years of fighting German grammar and German grammar final
 
 So proud of you. Celebration is on you, obviously, but I'll bring the cake.
 ```
+
+## 9. Voice note script for an elder
+
+**Brief:** *voice note to Nani, thank her for the ₹5000 she sent for my birthday, say I'll visit in December, hindi-english mix, warm*
+
+Voice note script
+
+```text
+Namaste Nani! Aapka bheja hua birthday gift mil gaya, five thousand rupees. Thank you so much, aapne yaad rakha, bahut accha laga.
+
+Main December mein aapse milne aa rahi hoon, phir dher saari baatein karenge. Apna khayal rakhna. Love you, Nani!
+```

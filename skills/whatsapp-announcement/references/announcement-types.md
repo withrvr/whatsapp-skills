@@ -195,6 +195,83 @@ Say hi! 👋
 ```
 Farewell: thanks + what they did + where they're going (if shared) + farewell plan.
 
+## 16. Job opening / hiring post
+
+```text
+💼 *Hiring: [Role], [Company], [City or Remote]*
+
+[What the role does, 1-2 lines.]
+- [Experience]
+- [Key skill or requirement]
+- [Salary or range, only if the user gave it]
+
+📩 *Apply:* [link or email] by *[Day, Date]*
+[Referrer line: "Happy to refer, message me" if it's the user's own company.]
+```
+Watch: say who's hiring (company or recruiter) and how to apply. No "DM for details" without a real contact. Never ask candidates for money; a "registration fee" is a scam sign.
+
+## 17. Urgent help request (blood, medical, missing person)
+
+```text
+🆘 *Urgent: [what's needed], [Day, Date]*
+
+[Blood group + units] needed for [patient first name or "a patient"] at [hospital, city].
+📞 Contact: [name, number]
+🕐 Needed by: [time]
+
+Please share only if you can help or know someone who can.
+```
+Watch: **always put the date in the first line.** Old blood requests keep getting forwarded for months, long after they're needed. Include a verified contact; say "Update: arranged, thank you" when it's done. Missing person: last seen where and when, a description, the police station or a family contact, never a home address.
+
+## 18. Meeting minutes from your own notes
+
+```text
+📝 *Minutes: [meeting], [Day, Date]*
+
+*Decided*
+1. [Decision]
+
+*Action items*
+- [Owner]: [task] by *[Day, Date]*
+
+*Next:* [date]
+```
+Watch: from a chat discussion instead of notes, use `whatsapp-catchup`.
+
+## 19. Daily stand-up / status update in a team group
+
+```text
+*[Name], [Day, Date]*
+✅ Done: [item]
+🔜 Today: [item]
+⛔ Blocked: [item + who can unblock], or "none"
+```
+Watch: one line per item, no paragraphs; the whole thing fits one phone screen.
+
+## 20. Buy, sell, rent, flatmate, carpool posts (community groups)
+
+```text
+[emoji] *[For sale / Looking for / For rent]: [item or need]*
+
+- [Key detail: model, size, condition, dates, route]
+- [Key detail]
+💰 [Price or budget]
+📍 [Area] · 📞 [Contact or "DM me"]
+```
+Watch: price and area always. Carpool: route, days, time, seats, cost share. Flatmate: area, rent share, move-in date, preferences only if the user stated them (no discriminatory filters).
+
+## 21. Event recap and photo share
+
+```text
+🙏 *Thank you for making [event] special!*
+
+[One or two specific highlights.]
+
+📸 Photos: [album link]
+[What's next, if anything.]
+```
+Watch: thank volunteers by name only if the user listed them; link one album, not twenty photos in the chat.
+
 ## Native features to suggest
 
 - **Poll** for choices and headcount (not "reply 1 or 2").

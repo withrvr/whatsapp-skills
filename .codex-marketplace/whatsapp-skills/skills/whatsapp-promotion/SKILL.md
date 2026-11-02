@@ -1,6 +1,6 @@
 ---
 name: whatsapp-promotion
-description: "Write WhatsApp promotional and marketing messages for a shop, small business, freelancer, coach or creator: sales and offers, festive campaigns, launches, new arrivals, course and webinar promos, service reminders, enquiry follow-ups, referral and review asks, catalog shares, listings. Use whenever someone wants to promote, advertise or sell on WhatsApp (broadcast list, customer group, community), even if they just say promo or sale message. Real terms, one call to action, opt-out line. Not for invitations (use whatsapp-invitation) or status (whatsapp-status)."
+description: "Write WhatsApp business and marketing messages for a shop, small business, freelancer, coach or creator: sales and offers, festive campaigns, launches, new arrivals, course promos, service reminders, review and referral asks, catalog shares, listings, order confirmed, shipped and delivered, payment received or due, cart reminders, broadcast welcome. Use whenever someone wants to promote or sell on WhatsApp or message customers. Real terms, one call to action, opt-out line. Not for invitations (use whatsapp-invitation) or profile text (use whatsapp-setup)."
 license: MIT
 metadata:
   author: withrvr
@@ -22,6 +22,7 @@ easy way to act.
 - "Remind clients their service is due", "follow up on an enquiry"
 - "Ask happy customers for a Google review / referral"
 - "Share my price list / catalog", "property listing for my broadcast list"
+- "Order confirmed / shipped / delivered message", "payment received", "payment due reminder", "cart reminder", "welcome message for my broadcast list"
 
 **Not for:** inviting people to a celebration (`whatsapp-invitation`), a notice
 with nothing to sell (`whatsapp-announcement`), status text (`whatsapp-status`),
@@ -37,7 +38,7 @@ channel posts and series (`whatsapp-channel`).
 - **First two lines carry the point** (what + when, or the ask). Short blocks, one blank line between them.
 - **Check weekday ↔ date**, am/pm, time zone and deadlines. Flag anything off in the user's brief.
 - **Dials:** length, tone, formatting, emoji, language. Explicit words from the user win, then the audience, then this skill's defaults (`references/message-dials.md`).
-- **Before delivering**, if you can run code: save the draft to a temp file with your file tool, then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` (absolute path, no shell variables). Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
+- **Before delivering**, if you can run code: save the draft to a temp file with your file-writing tool (not a shell heredoc), then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` as one standalone command: absolute paths, no `cd`, no `&&`, no shell variables, so it doesn't trip permission checks. Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
 <!-- END shared:core-rules -->
 
 ## Workflow
@@ -91,7 +92,7 @@ Reply STOP to stop these messages.
 
 ## References
 
-- `references/promo-types.md`: skeletons for 14 promotion types. Load at step 2.
+- `references/promo-types.md`: skeletons for 14 promotion types plus 7 order, payment and broadcast-welcome messages. Load at step 2.
 - `references/examples.md`: worked promos (sale, launch, course, service reminder, review ask, listing).
 - `references/links-media-mentions.md`: wa.me links with prefilled text, catalog links, posters and captions.
 - `references/message-dials.md`, `references/writing-rules.md`, `references/whatsapp-formatting.md`.
@@ -100,4 +101,5 @@ Reply STOP to stop these messages.
 ## Related skills
 
 `whatsapp-status` (offer as a 24-hour status) · `whatsapp-channel` (regular
-posts to followers) · `whatsapp-reply` (answering customer enquiries)
+posts to followers) · `whatsapp-reply` (answering customer enquiries) ·
+`whatsapp-setup` (business description, greeting, away message, quick replies)

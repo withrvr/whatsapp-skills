@@ -60,7 +60,9 @@ class Examples(unittest.TestCase):
             doc = (skill / "references" / "examples.md").read_text(encoding="utf-8")
             blocks = text_blocks(doc)
             with self.subTest(skill=skill.name):
-                self.assertGreaterEqual(len(blocks), 4, "at least 4 worked examples")
+                worked = re.findall(r"^## \d+\.", doc, re.M)
+                self.assertGreaterEqual(len(worked), 4, "at least 4 worked examples")
+                self.assertGreaterEqual(len(blocks), 2, "examples show copy-ready messages")
             for i, block in enumerate(blocks, 1):
                 kind = "status" if skill.name == "whatsapp-status" else "message"
                 report = wa_lint.lint(block, kind=kind, today=EXAMPLES_TODAY)

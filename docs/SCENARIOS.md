@@ -188,3 +188,68 @@ Missing a scenario you use? [Open a scenario request](../.github/ISSUE_TEMPLATE/
 | 129 | Typos and grammar, keep my voice | `whatsapp-formatter` | polish |
 | 130 | "Is this okay to send?" | `whatsapp-formatter` | check |
 | 131 | Status too long | `whatsapp-formatter` | check, then polish |
+
+## Business messages to customers
+
+| # | Scenario | Skill | Starts as |
+|---|---|---|---|
+| 132 | Order confirmed | `whatsapp-promotion` | short · warm · light · few |
+| 133 | Order shipped / out for delivery | `whatsapp-promotion` | short · warm · light · few |
+| 134 | Delivered, anything wrong? | `whatsapp-promotion` | one-liner · warm · plain · few |
+| 135 | Payment received / receipt | `whatsapp-promotion` | one-liner · warm · plain · few |
+| 136 | Payment due reminder to a customer | `whatsapp-promotion` | short · friendly-professional · plain · none |
+| 137 | Cart or pending-order reminder (opted-in, once) | `whatsapp-promotion` | short · warm · plain · few |
+| 138 | Welcome to my broadcast list | `whatsapp-promotion` | short · warm · light · few |
+
+## More group posts
+
+| # | Scenario | Skill | Starts as |
+|---|---|---|---|
+| 139 | Job opening in an alumni or community group | `whatsapp-announcement` | medium · friendly-professional · light · few |
+| 140 | Urgent blood donation request (dated) | `whatsapp-announcement` | short · urgent · light · none |
+| 141 | Missing person or pet alert | `whatsapp-announcement` | short · urgent · light · none |
+| 142 | Meeting minutes from my notes | `whatsapp-announcement` | medium · friendly-professional · full · few |
+| 143 | Daily stand-up update in the team group | `whatsapp-announcement` | short · friendly-professional · light · few |
+| 144 | Selling something in the society group | `whatsapp-announcement` | short · casual · light · few |
+| 145 | Looking for a flatmate / flat to rent | `whatsapp-announcement` | short · casual · light · few |
+| 146 | Carpool or ride share | `whatsapp-announcement` | short · casual · light · few |
+| 147 | Thank-you and photos after an event | `whatsapp-announcement` | short · warm · light · few |
+| 148 | Voice-note script for an elder or a long explanation | `whatsapp-message` | short · warm · plain · none |
+
+## Profile, business and group setup
+
+| # | Scenario | Skill | Starts as |
+|---|---|---|---|
+| 149 | WhatsApp Business description | `whatsapp-setup` | medium · warm · plain · few |
+| 150 | Greeting message for new customers | `whatsapp-setup` | short · warm · plain · few |
+| 151 | Away message outside business hours | `whatsapp-setup` | short · warm · plain · none |
+| 152 | Quick replies (/price, /loc, /pay, /hours) | `whatsapp-setup` | short · warm · plain · few |
+| 153 | Catalog item names and descriptions | `whatsapp-setup` | short · warm · plain · none |
+| 154 | Labels for sorting chats | `whatsapp-setup` | one-liner each |
+| 155 | Personal About line | `whatsapp-setup` | one-liner · personal · plain · few |
+| 156 | Group name, description and rules | `whatsapp-setup` | medium · friendly-professional · plain · none |
+| 157 | Community name and description | `whatsapp-setup` | short · friendly-professional · plain · none |
+| 158 | Channel name and description | `whatsapp-setup` | one-liner · creator voice · plain · few |
+
+## Privacy and redaction
+
+| # | Scenario | Skill | Starts as |
+|---|---|---|---|
+| 159 | Hide names and numbers before posting a chat in a group | `whatsapp-redact` | standard |
+| 160 | Scam warning that keeps the scammer's number, hides mine | `whatsapp-redact` | standard |
+| 161 | Remove personal info before pasting into an AI | `whatsapp-redact` | light |
+| 162 | Proof of payment with the account partly masked | `whatsapp-redact` | light · partial |
+| 163 | Anonymise a story for a public review or forum | `whatsapp-redact` | full |
+| 164 | What to cover in a screenshot before sharing it | `whatsapp-redact` | checklist |
+
+## Catching up on chats
+
+| # | Scenario | Skill | Starts as |
+|---|---|---|---|
+| 165 | "What did I miss?" in a busy group | `whatsapp-catchup` | summary |
+| 166 | "Is anything asked of me?" | `whatsapp-catchup` | summary, mentions only |
+| 167 | Only messages since a date | `whatsapp-catchup` | summary |
+| 168 | Minutes of a discussion to post back | `whatsapp-catchup` | full · friendly-professional |
+| 169 | Recap of trip or event planning | `whatsapp-catchup` | short · casual · light |
+| 170 | Decisions from a long family or society thread | `whatsapp-catchup` | summary |
+

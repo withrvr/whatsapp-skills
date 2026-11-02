@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-skills",
-  "description": "8 skills that turn the context in your head into a ready-to-send WhatsApp message: 1:1 messages, replies, group and community announcements, invitations, promotions, status updates, channel posts, and a formatter that converts Markdown or email text into WhatsApp formatting. Draft-only: nothing is sent for you.",
+  "description": "11 skills that turn the context in your head into a ready-to-send WhatsApp message: 1:1 messages, replies, group and community announcements, invitations, promotions and order updates, status updates, channel posts, a formatter for Markdown or email text, masking of sensitive details, business and group profile setup, and chat catch-ups with minutes. Draft-only: nothing is sent for you.",
   "version": "1.0.0",
   "author": {
     "name": "withrvr",
@@ -23,7 +23,7 @@
     "displayName": "WhatsApp Skills",
     "composerIcon": "./assets/icon.svg",
     "shortDescription": "Give the context once, get the WhatsApp message to paste.",
-    "longDescription": "8 skills for writing WhatsApp messages: 1:1 messages, replies, group and community announcements, invitations, promotions, status updates, channel posts, and a Markdown-to-WhatsApp formatter. You describe the situation in your own words; the skill returns the final message with correct WhatsApp formatting, exact dates and links, and the tone you asked for.",
+    "longDescription": "11 skills for WhatsApp: 1:1 messages, replies, group and community announcements, invitations, promotions and order updates, status updates, channel posts, a Markdown-to-WhatsApp formatter, sensitive-detail masking, business and group profile setup, and chat catch-ups. You describe the situation in your own words; the skill returns the final text with correct WhatsApp formatting, exact dates and links, and the tone you asked for.",
     "developerName": "withrvr",
     "category": "Productivity",
     "capabilities": [

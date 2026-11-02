@@ -1,6 +1,6 @@
 ---
 name: whatsapp-announcement
-description: "Write a WhatsApp group, community or broadcast announcement from notes: office and team notices, meeting and schedule changes, reminders, deadlines and fee dues, alerts (power or water cut, outage, safety), society and club notices, school, college and coaching updates, study material, holidays, rules, results, fundraisers. Use whenever someone needs to inform, remind or alert a WhatsApp group. Packs dates, times, links and @mentions so it scans fast. Not for invitations (use whatsapp-invitation), offers (whatsapp-promotion) or channel posts (whatsapp-channel)."
+description: "Write a WhatsApp group, community or broadcast announcement from notes: office notices, meetings and changes, reminders, deadlines, fee dues, alerts, society and school notices, study material, holidays, rules, results, fundraisers, job openings, urgent blood or help requests, minutes, stand-ups, buy-sell-rent posts, event recaps. Use whenever someone needs to inform, remind or alert a WhatsApp group. Packs dates, times, links and @mentions. Not for invitations (use whatsapp-invitation), offers (whatsapp-promotion) or channel posts (whatsapp-channel)."
 license: MIT
 metadata:
   author: withrvr
@@ -37,7 +37,7 @@ anything selling (`whatsapp-promotion`), one-way channel posts or series
 - **First two lines carry the point** (what + when, or the ask). Short blocks, one blank line between them.
 - **Check weekday ↔ date**, am/pm, time zone and deadlines. Flag anything off in the user's brief.
 - **Dials:** length, tone, formatting, emoji, language. Explicit words from the user win, then the audience, then this skill's defaults (`references/message-dials.md`).
-- **Before delivering**, if you can run code: save the draft to a temp file with your file tool, then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` (absolute path, no shell variables). Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
+- **Before delivering**, if you can run code: save the draft to a temp file with your file-writing tool (not a shell heredoc), then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` as one standalone command: absolute paths, no `cd`, no `&&`, no shell variables, so it doesn't trip permission checks. Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
 <!-- END shared:core-rules -->
 
 ## Workflow
@@ -47,7 +47,8 @@ anything selling (`whatsapp-promotion`), one-way channel posts or series
    people must do, deadline, links, files, contacts, who's announcing.
 2. **Pick the type** in `references/announcement-types.md` (meeting, change,
    reminder, deadline, alert, info share, study material, results, fundraiser,
-   welcome, rules, digest). Use its skeleton.
+   welcome, rules, digest, job opening, urgent help request, minutes, stand-up,
+   buy-sell-rent post, event recap). Use its skeleton.
 3. **Set the dials.** Defaults: length `medium`, tone `friendly-professional`,
    formatting `light` (`full` when there are 4+ details), emoji `few` as line
    labels. Alerts: tone `urgent`, emoji only ⚠️ or 🚨, no greeting.
@@ -95,7 +96,7 @@ Notes:
 
 ## References
 
-- `references/announcement-types.md`: skeletons for 15 announcement types. Load at step 2.
+- `references/announcement-types.md`: skeletons for 21 announcement types. Load at step 2.
 - `references/examples.md`: full worked announcements (office, school, society, alert, study material, Hinglish).
 - `references/links-media-mentions.md`: load whenever the brief has links, files, posters, @mentions, or a poll/event would fit.
 - `references/message-dials.md`, `references/writing-rules.md`, `references/whatsapp-formatting.md`.
@@ -104,4 +105,5 @@ Notes:
 ## Related skills
 
 `whatsapp-invitation` (celebrations and events) · `whatsapp-promotion` (offers) ·
-`whatsapp-channel` (one-way channel posts) · `whatsapp-status` (24-hour status)
+`whatsapp-channel` (one-way channel posts) · `whatsapp-status` (24-hour status) ·
+`whatsapp-catchup` (minutes from a chat discussion) · `whatsapp-setup` (group description and rules)

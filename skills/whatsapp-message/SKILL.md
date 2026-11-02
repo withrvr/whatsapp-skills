@@ -1,6 +1,6 @@
 ---
 name: whatsapp-message
-description: "Turn a brain-dump of context into one ready-to-send WhatsApp message to a person or small chat: favours, follow-ups, updates to your boss, HR or recruiters, first messages to new contacts, apologies, congratulations, payment nudges, bookings, complaints. Use whenever someone wants to message, text or WhatsApp someone and gives the situation, even casually. Dials for length, tone, formatting, emoji and language (Hinglish too). Not for group notices (use whatsapp-announcement), invites (whatsapp-invitation) or answering a message you got (whatsapp-reply)."
+description: "Turn a brain-dump of context into one ready-to-send WhatsApp message to a person or small chat: favours, follow-ups, updates to your boss, HR or recruiters, first messages to new contacts, apologies, congratulations, payment nudges, bookings, complaints, voice-note scripts. Use whenever someone wants to message, text or WhatsApp someone and gives the situation, even casually. Dials for length, tone, formatting, emoji and language. Not for group notices (use whatsapp-announcement), invites (whatsapp-invitation) or answering a message you got (whatsapp-reply)."
 license: MIT
 metadata:
   author: withrvr
@@ -20,6 +20,7 @@ tone for the person, right length, nothing invented, nothing missing.
 - "I got this number from Ankit, write my first message to her about …"
 - "Remind him about the money, nicely"
 - "Congratulate / thank / apologise to …"
+- "What should I say in a voice note to Nani about …" (a speakable script)
 - Any 1:1 or small-chat message where the user is starting the conversation.
 
 **Not for:** a reply to a message they received (`whatsapp-reply`), a notice to a
@@ -36,7 +37,7 @@ message (`whatsapp-promotion`), or fixing text they already wrote (`whatsapp-for
 - **First two lines carry the point** (what + when, or the ask). Short blocks, one blank line between them.
 - **Check weekday ↔ date**, am/pm, time zone and deadlines. Flag anything off in the user's brief.
 - **Dials:** length, tone, formatting, emoji, language. Explicit words from the user win, then the audience, then this skill's defaults (`references/message-dials.md`).
-- **Before delivering**, if you can run code: save the draft to a temp file with your file tool, then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` (absolute path, no shell variables). Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
+- **Before delivering**, if you can run code: save the draft to a temp file with your file-writing tool (not a shell heredoc), then run `python3 <this skill's folder>/scripts/wa_lint.py --kind <kind> <file>` as one standalone command: absolute paths, no `cd`, no `&&`, no shell variables, so it doesn't trip permission checks. Fix every error; weigh the warnings. If you can't run code, use the checklist in `references/whatsapp-formatting.md`. Don't mention the check in your reply unless it found a problem in the user's own brief.
 <!-- END shared:core-rules -->
 
 ## Workflow
@@ -87,7 +88,7 @@ I'm on my phone for anything urgent.
 
 ## References
 
-- `references/message-playbook.md`: shapes for ~30 common 1:1 situations. Load at step 2.
+- `references/message-playbook.md`: shapes for ~30 common 1:1 situations and voice-note scripts. Load at step 2.
 - `references/examples.md`: worked briefs with finished messages. Load when the tone is unclear.
 - `references/message-dials.md`: full dial definitions and audience defaults.
 - `references/writing-rules.md`: output contract, fact rules, won't-write list.

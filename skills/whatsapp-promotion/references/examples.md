@@ -72,3 +72,16 @@ Hi Mr. Rao, thank you for choosing CoolFix yesterday! If you have a minute, a Go
 
 📞 Amit: 98220 55667
 ```
+
+## 6. Order out for delivery
+
+**Brief:** *Sweet Crumbs order for Ananya, chocolate cake, out for delivery now, reaching by 5:30, delivery guy Ravi 98500 11223*
+
+```text
+🚚 Your order is on the way, Ananya!
+
+Your chocolate cake will reach you by *5:30 pm* today.
+Delivery partner: Ravi, 98500 11223
+
+Sweet Crumbs
+```

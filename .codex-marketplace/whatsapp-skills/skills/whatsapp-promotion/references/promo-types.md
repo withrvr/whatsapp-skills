@@ -155,6 +155,78 @@ Facts exactly as given. No "best deal in the city".
 [Disclosure: "Paid partnership" / "affiliate link" when applicable.]
 ```
 
+## Order and payment updates (transactional)
+
+Short, factual, one per stage. No upsell in a payment or delay message.
+
+### 15. Order confirmed
+
+```text
+✅ *Order confirmed, [Name]!*
+
+[Items, short] · [Total]
+📅 [Delivery or pickup date/time]
+[Order no., if any]
+
+We'll message you when it's on the way.
+[Business]
+```
+
+### 16. Shipped / out for delivery
+
+```text
+🚚 Your order is on the way, [Name]!
+
+Expected: *[Day, Date / today by time]*
+Track: [link]  or  Delivery partner: [name, number]
+```
+
+### 17. Delivered + feedback
+
+```text
+Your order has been delivered. Hope you love it! 😊
+
+Anything not right? Reply here and we'll fix it.
+```
+Ask for a review in a separate message a day later (type 9), not in the delivery message.
+
+### 18. Payment received / receipt
+
+```text
+Received ₹[amount] for [what], thank you! 🙏
+[Ref / invoice no.] · [Date]
+```
+
+### 19. Payment due (business to customer)
+
+```text
+Hi [Name], a gentle reminder that ₹[amount] for [invoice/what] is due on *[Day, Date]*.
+
+Pay by UPI: [exact UPI ID] or [payment link]
+Ignore this if you've already paid. Thank you!
+```
+Second reminder: shorter, same facts. Never threaten in the first two.
+
+### 20. Abandoned cart / pending enquiry (opted-in customers only, once)
+
+```text
+Hi [Name], you left [item] in your cart. It's still available.
+
+👉 Complete your order: [link]
+```
+Once only, within a day or two. A real incentive only if the user has one. Never "only 1 left" unless true.
+
+### 21. Broadcast welcome / opt-in confirmation
+
+```text
+Thanks for joining [Business] updates on WhatsApp! 🎉
+
+We'll send [what: offers, new arrivals] about [how often].
+Save this number so our messages reach you.
+Reply STOP anytime to stop them.
+```
+Watch: broadcast lists only reach people who saved your number, so "save this number" is the call to action that matters.
+
 ## Calls to action that work on WhatsApp
 
 - "Reply *YES* and we'll confirm your order."

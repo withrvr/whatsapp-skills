@@ -52,6 +52,14 @@ LIMITS: Dict[str, Dict[str, int]] = {
     # The WhatsApp Business API caps media captions at 1,024 characters, and a
     # long caption collapses behind "Read more" anyway. Warn, do not fail.
     "caption": {"hard": 65536, "soft": 1024},
+    # Profile and description text (whatsapp-setup). The personal and business
+    # "About" line is capped at 139 characters. Descriptions get soft limits:
+    # long ones are truncated behind "Read more" in the app.
+    "about": {"hard": 139},
+    "business-description": {"hard": 65536, "soft": 512},
+    "group-description": {"hard": 65536, "soft": 2048},
+    "quick-reply": {"hard": 65536, "soft": 1024},
+    "redact": {"hard": 10_000_000},
 }
 KINDS = tuple(LIMITS)
 
@@ -115,6 +123,10 @@ TABLE_ROW_RE = re.compile(r"^\s*\|.*\|\s*$")
 HTML_RE = re.compile(r"</?(?:b|strong|i|em|u|s|del|strike|br|p|div|span|a|h[1-6]|ul|ol|li)\b[^>]*>", re.I)
 NESTED_LIST_RE = re.compile(r"^(?: {2,}|\t+)(?:[-*•+]|\d{1,2}[.)])\s+\S")
 PLACEHOLDER_RE = re.compile(r"\[(?!\s*\])[^\[\]\n]{1,48}\](?!\()")
+REDACTION_LABEL_RE = re.compile(
+    r"\[(?:phone|email|UPI ID|card|Aadhaar|PAN|IBAN|OTP|code|account no\.|address|name|company|school|"
+    r"vehicle no\.|flat no\.|link|Person [A-Z]|redacted)(?: \d+)?\]")
+CHAT_STAMP_RE = re.compile(r"\[\d{1,4}[./-]\d{1,2}[./-]\d{1,4},? \d{1,2}[:.]\d{2}(?:[:.]\d{2})?(?:\s?[APap]\.?[Mm]\.?)?\]")
 TBD_RE = re.compile(r"\b(?:TBD|TBA|TBC|XXX+|xx:xx)\b")
 MENTION_RE = re.compile(r"(?<![\w.@])@[^\W\d_][\w.]*", re.U)
 HASHTAG_RE = re.compile(r"(?<![\w&#/])#[A-Za-z][\w]*")
@@ -537,6 +549,8 @@ def lint(
 
     # ---- Content quality ----------------------------------------------------
     for m in PLACEHOLDER_RE.finditer(masked):
+        if REDACTION_LABEL_RE.fullmatch(m.group(0)) or CHAT_STAMP_RE.fullmatch(m.group(0)):
+            continue  # [phone 1], [Person A] and [02/11/26, 10:15 AM] are deliberate
         add(Finding("warn", "PLACEHOLDER", _line_of(masked, m.start()),
                     f"Placeholder {text[m.start():m.end()]} still needs a real value."))
     for m in TBD_RE.finditer(masked):
@@ -608,6 +622,12 @@ def lint(
 
     _check_dates(text, year, today, date_order, report)
 
+    for a, _, kind, _ in find_pii(text):
+        if kind in HIGH_RISK:
+            add(Finding("warn", "SENSITIVE", _line_of(text, a),
+                        f"Looks like a {PII_LABELS[kind]} number. Don't share it in a chat unless you must; "
+                        f"mask it with --redact."))
+
     report.stats = {
         "chars": chars,
         "words": words,
@@ -620,6 +640,160 @@ def lint(
     report.findings.sort(key=lambda f: (order[f.level], f.line, f.code))
     return report
 
+
+
+# --------------------------------------------------------------------------
+# Sensitive data: find and mask (whatsapp-redact)
+# --------------------------------------------------------------------------
+
+#: Kinds in detection order. Earlier kinds win when spans overlap, so the ones
+#: recognised by a context word ("OTP", "A/c no") go before pattern-only ones.
+PII_KINDS = ("otp", "account", "card", "aadhaar", "pan", "iban", "email", "upi", "phone")
+PII_LABELS = {
+    "card": "card", "aadhaar": "Aadhaar", "pan": "PAN", "iban": "IBAN", "otp": "code",
+    "account": "account no.", "email": "email", "upi": "UPI ID", "phone": "phone",
+}
+#: Never fine in a WhatsApp message to a group or a stranger.
+HIGH_RISK = ("card", "aadhaar", "pan", "iban", "otp")
+
+_VERHOEFF_D = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 0, 6, 7, 8, 9, 5], [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
+    [3, 4, 0, 1, 2, 8, 9, 5, 6, 7], [4, 0, 1, 2, 3, 9, 5, 6, 7, 8], [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+    [6, 5, 9, 8, 7, 1, 0, 4, 3, 2], [7, 6, 5, 9, 8, 2, 1, 0, 4, 3], [8, 7, 6, 5, 9, 3, 2, 1, 0, 4],
+    [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+]
+_VERHOEFF_P = [
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 5, 7, 6, 2, 8, 3, 0, 9, 4], [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
+    [8, 9, 1, 6, 0, 4, 3, 5, 2, 7], [9, 4, 5, 3, 1, 2, 6, 8, 7, 0], [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+    [2, 7, 9, 3, 8, 0, 6, 4, 1, 5], [7, 0, 4, 6, 9, 1, 3, 2, 5, 8],
+]
+
+
+def verhoeff_ok(digits: str) -> bool:
+    """Aadhaar numbers end in a Verhoeff check digit."""
+    c = 0
+    for i, ch in enumerate(reversed(digits)):
+        c = _VERHOEFF_D[c][_VERHOEFF_P[i % 8][int(ch)]]
+    return c == 0
+
+
+def luhn_ok(digits: str) -> bool:
+    """Payment card numbers end in a Luhn check digit."""
+    total = 0
+    for i, ch in enumerate(reversed(digits)):
+        d = int(ch)
+        if i % 2:
+            d = d * 2 - 9 if d > 4 else d * 2
+        total += d
+    return total % 10 == 0
+
+
+def iban_ok(raw: str) -> bool:
+    s = raw.replace(" ", "").upper()
+    if not 15 <= len(s) <= 34:
+        return False
+    moved = s[4:] + s[:4]
+    return int("".join(str(int(ch, 36)) for ch in moved)) % 97 == 1
+
+
+_PII_RES = {
+    "card": re.compile(r"(?<![\d.])(?:\d[ -]?){12,18}\d(?![\d.])"),
+    "aadhaar": re.compile(r"(?<![\d.])[2-9]\d{3}[ -]?\d{4}[ -]?\d{4}(?![\d.])"),
+    "pan": re.compile(r"\b[A-Z]{3}[ABCFGHLJPTK][A-Z]\d{4}[A-Z]\b"),
+    "iban": re.compile(r"\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){2,7}(?: ?[A-Z0-9]{1,4})?\b"),
+    "otp": re.compile(r"\b(?:otp|one[- ]time (?:password|code)|verification code|security code|passcode|"
+                      r"pin|cvv|password)\b\D{0,20}?(\d{3,8})\b", re.I),
+    "account": re.compile(r"\b(?:a/?c|acc(?:ount)?|acct)\.?(?:\s*(?:no|number|num)\.?)?\s*[:#-]?\s*[`'\"]?"
+                          r"(\d[\d -]{6,20}\d)", re.I),
+    "email": re.compile(r"(?<![\w.+-])[\w.+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+"),
+    "upi": re.compile(r"(?<![\w.@-])[\w.-]{2,}@[A-Za-z]{2,}\b(?![.\w@])"),
+    "phone": re.compile(
+        r"(?<![\w+])(?:"
+        r"\+\d{1,3}[ -]?(?:\(?\d+\)?[ -]?){1,4}\d+"      # +91 98765 43210, +44 20 7946 0958
+        r"|[6-9]\d{4}[ -]?\d{5}"                            # Indian mobile, 10 digits
+        r"|0\d{2,4}[ -]?\d{3,4}[ -]?\d{4}"                  # landline with STD code
+        r")(?![\w])"
+    ),
+}
+_WA_ME_RE = re.compile(r"(?:https?://)?wa\.me/(\d{8,15})")
+
+
+def find_pii(text: str) -> List[Tuple[int, int, str, str]]:
+    """Every sensitive value as (start, end, kind, value), in text order."""
+    taken: List[Tuple[int, int]] = []
+    found: List[Tuple[int, int, str, str]] = []
+    url_spans = [(a, b) for a, b, _ in _urls(text)]
+
+    def free(a: int, b: int) -> bool:
+        return all(b <= x or a >= y for x, y in taken)
+
+    def in_url(a: int, b: int) -> bool:
+        return any(x <= a and b <= y for x, y in url_spans)
+
+    for m in _WA_ME_RE.finditer(text):
+        taken.append((m.start(1), m.end(1)))
+        found.append((m.start(1), m.end(1), "phone", m.group(1)))
+    for kind in PII_KINDS:
+        for m in _PII_RES[kind].finditer(text):
+            grp = 1 if kind in ("otp", "account") else 0
+            a, b, value = m.start(grp), m.end(grp), m.group(grp)
+            digits = re.sub(r"\D", "", value)
+            if in_url(a, b) or not free(a, b):
+                continue
+            if kind == "card" and not (13 <= len(digits) <= 19 and luhn_ok(digits)):
+                continue
+            if kind == "aadhaar":
+                context = text[max(0, a - 25):a].lower()
+                if not (verhoeff_ok(digits) or "aadhaar" in context or "aadhar" in context or "uid" in context):
+                    continue
+            if kind == "iban" and not iban_ok(value):
+                continue
+            if kind == "phone" and value.startswith("+") and not 8 <= len(digits) <= 15:
+                continue
+            taken.append((a, b))
+            found.append((a, b, kind, value))
+    found.sort()
+    return found
+
+
+def _normalise(kind: str, value: str) -> str:
+    return value.lower() if kind in ("email", "upi") else re.sub(r"[^0-9A-Za-z]", "", value)[-10:]
+
+
+def _partial(kind: str, value: str) -> str:
+    if kind in ("email", "upi"):
+        local, _, domain = value.partition("@")
+        return f"{local[:1]}***@{domain}"
+    keep = 4
+    alnum = [i for i, ch in enumerate(value) if ch.isalnum()]
+    hide = set(alnum[:-keep]) if len(alnum) > keep else set(alnum)
+    return "".join("X" if i in hide else ch for i, ch in enumerate(value))
+
+
+def redact(text: str, style: str = "label", keep: Sequence[str] = ()) -> Tuple[str, Dict[str, int]]:
+    """Mask sensitive values. ``style="label"`` gives consistent stand-ins
+    ([phone 1], [phone 2]: the same number gets the same label every time);
+    ``style="partial"`` keeps the last 4 characters (XXXXX X3210).
+    Returns the new text and a count per kind."""
+    hits = [h for h in find_pii(text) if h[2] not in keep]
+    distinct: Dict[str, List[str]] = {}
+    for _, _, kind, value in hits:
+        key = _normalise(kind, value)
+        distinct.setdefault(kind, [])
+        if key not in distinct[kind]:
+            distinct[kind].append(key)
+    out, last = [], 0
+    for a, b, kind, value in hits:
+        out.append(text[last:a])
+        if style == "partial":
+            out.append(_partial(kind, value))
+        else:
+            names = distinct[kind]
+            n = names.index(_normalise(kind, value)) + 1
+            out.append(f"[{PII_LABELS[kind]}{f' {n}' if len(names) > 1 else ''}]")
+        last = b
+    out.append(text[last:])
+    return "".join(out), {k: len(v) for k, v in distinct.items()}
 
 # --------------------------------------------------------------------------
 # Fix: convert Markdown / HTML / email-ish text into WhatsApp formatting
@@ -824,6 +998,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     p.add_argument("--max-emoji", type=int, default=None, help="fail when the message has more emoji")
     p.add_argument("--fix", action="store_true",
                    help="print the message converted to WhatsApp formatting; the report goes to stderr")
+    p.add_argument("--redact", action="store_true",
+                   help="print the text with sensitive values masked; a summary goes to stderr")
+    p.add_argument("--style", choices=("label", "partial"), default="label",
+                   help="--redact style: [phone 1] labels (default) or partial XXXXX X3210")
+    p.add_argument("--keep", default="", help="--redact: comma-separated kinds to leave visible, e.g. phone,email")
+    p.add_argument("--pii", action="store_true", help="list every sensitive value found, without changing the text")
     p.add_argument("--json", action="store_true", help="print the report as JSON")
     p.add_argument("--strict", action="store_true", help="exit 1 on warnings too")
     p.add_argument("--version", action="version", version=f"wa_lint {__version__}")
@@ -840,6 +1020,29 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         return 2
 
     today = None if args.no_today else (args.today or _dt.date.today())
+    if args.redact or args.pii:
+        keep = tuple(k.strip() for k in args.keep.split(",") if k.strip())
+        unknown = set(keep) - set(PII_KINDS)
+        if unknown:
+            print(f"wa_lint: unknown --keep kind(s): {', '.join(sorted(unknown))}; "
+                  f"choose from {', '.join(PII_KINDS)}", file=sys.stderr)
+            return 2
+        hits = find_pii(text)
+        if args.pii:
+            rows = [{"line": _line_of(text, a), "kind": k, "value": v} for a, _, k, v in hits]
+            if args.json:
+                print(json.dumps(rows, ensure_ascii=False, indent=2))
+            else:
+                for r in rows:
+                    print(f"L{r['line']:<4} {PII_LABELS[r['kind']]:<12} {r['value']}")
+                print(f"{len(rows)} sensitive value(s) found.")
+            return 0
+        masked, counts = redact(text, style=args.style, keep=keep)
+        sys.stdout.write(masked if masked.endswith("\n") else masked + "\n")
+        summary = ", ".join(f"{n} {PII_LABELS[k]}" for k, n in counts.items()) or "nothing"
+        print(f"wa_lint --redact: masked {summary}. Names, addresses and other context still need a human read.",
+              file=sys.stderr)
+        return 0
     if args.fix:
         text = fix(text)
         sys.stdout.write(text if text.endswith("\n") else text + "\n")

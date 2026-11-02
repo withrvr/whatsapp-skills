@@ -1,6 +1,6 @@
 # Install
 
-Pick the app you use. Every route installs the same 8 skills.
+Pick the app you use. Every route installs the same 11 skills.
 
 - [claude.ai and Claude Desktop (plugin)](#claudeai-and-claude-desktop-plugin)
 - [claude.ai: upload one skill as a zip](#claudeai-upload-one-skill-as-a-zip)
@@ -34,7 +34,7 @@ If you only want one or two skills, or your workspace can't add a marketplace:
 3. Turn the skill on.
 
 Each zip has one folder with `SKILL.md` at its top, the layout the upload expects.
-`whatsapp-skills-all.zip` has all 8 folders, for agents that take a folder of skills.
+`whatsapp-skills-all.zip` has all 11 folders, for agents that take a folder of skills.
 
 ## Claude Code
 
@@ -59,7 +59,7 @@ cd whatsapp-skills && claude
 ```
 
 The repo ships `.claude/skills/` (symlinks to `skills/`), so Claude Code finds all
-8 skills with no install. Call them as `/whatsapp-message`, `/whatsapp-reply`, and so on.
+11 skills with no install. Call them as `/whatsapp-message`, `/whatsapp-reply`, and so on.
 
 **Windows:** symlinks need Developer Mode (or an elevated shell) plus
 `git config --global core.symlinks true` before cloning. Without that, use the

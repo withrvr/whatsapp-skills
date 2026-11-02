@@ -300,6 +300,65 @@ class Fix(unittest.TestCase):
         self.assertEqual(wa_lint.fix(clean), clean)
 
 
+class SensitiveData(unittest.TestCase):
+    def kinds(self, text):
+        return [k for _, _, k, _ in wa_lint.find_pii(text)]
+
+    def test_each_kind(self):
+        cases = {
+            "+91 98765 43210": "phone", "98765 43210": "phone", "022 2654 1100": "phone",
+            "rohan.k@gmail.com": "email", "rohan@okicici": "upi",
+            "4111 1111 1111 1111": "card", "ABCPK1234L": "pan", "4918 3726 5017": "aadhaar",
+            "GB82 WEST 1234 5698 7654 32": "iban", "OTP is 482913": "otp",
+            "A/c no: 50100123456789": "account", "A/C: `50100123456789`": "account",
+            "https://wa.me/919822012345": "phone",
+        }
+        for text, kind in cases.items():
+            with self.subTest(text=text):
+                self.assertEqual(self.kinds(text), [kind])
+
+    def test_checksums_prevent_false_positives(self):
+        self.assertEqual(self.kinds("Order 4111 1111 1111 1112"), [])  # fails Luhn
+        self.assertEqual(self.kinds("Ref 4918 3726 5018"), [])  # fails Verhoeff, no Aadhaar word
+        self.assertEqual(self.kinds("Aadhaar 4918 3726 5018"), ["aadhaar"])  # the word is enough
+
+    def test_public_and_harmless_values_are_kept(self):
+        for text in ("IFSC HDFC0001234", "₹1,49,999", "14/11/2026 at 10:30", "order #4567891230",
+                     "@Rahul please confirm", "Room 204, 2-4 pm", "https://example.com/a1234567890"):
+            with self.subTest(text=text):
+                self.assertEqual(self.kinds(text), [])
+
+    def test_consistent_labels(self):
+        out, counts = wa_lint.redact("Call 98765 43210, or +91 98765 43210, or 98111 22334")
+        self.assertEqual(out, "Call [phone 1], or [phone 1], or [phone 2]")
+        self.assertEqual(counts, {"phone": 2})
+
+    def test_single_value_has_no_number(self):
+        self.assertEqual(wa_lint.redact("mail me at a.b@x.com")[0], "mail me at [email]")
+
+    def test_partial_style(self):
+        out, _ = wa_lint.redact("Card 4111 1111 1111 1111, UPI rohan@okicici", style="partial")
+        self.assertEqual(out, "Card XXXX XXXX XXXX 1111, UPI r***@okicici")
+
+    def test_keep(self):
+        out, _ = wa_lint.redact("98765 43210 and a@b.com", keep=("email",))
+        self.assertEqual(out, "[phone] and a@b.com")
+
+    def test_otp_cvv_pin_labelled_code(self):
+        self.assertEqual(wa_lint.redact("CVV 123, PIN 4455")[0], "CVV [code 1], PIN [code 2]")
+
+    def test_wa_me_link_keeps_working_shape(self):
+        self.assertEqual(wa_lint.redact("https://wa.me/919822012345")[0], "https://wa.me/[phone]")
+
+    def test_lint_warns_on_high_risk_only(self):
+        self.assertIn("SENSITIVE", codes("Your card 4111 1111 1111 1111", "warn"))
+        self.assertNotIn("SENSITIVE", codes("Call Sameer +91 98200 11223"))
+
+    def test_redaction_labels_are_not_placeholders(self):
+        self.assertEqual(codes("[02/11/26, 10:15:32 AM] Person A: call [phone 1] or [link]", "warn"), [])
+        self.assertIn("PLACEHOLDER", codes("Venue: [venue]", "warn"))
+
+
 class CLI(unittest.TestCase):
     def run_cli(self, text, *args):
         with tempfile.TemporaryDirectory() as tmp:
@@ -340,6 +399,24 @@ class CLI(unittest.TestCase):
         err = io.StringIO()
         with redirect_stderr(err):
             self.assertEqual(wa_lint.main(["/nonexistent/x.txt"]), 2)
+
+    def test_redact_cli(self):
+        code, out, err = self.run_cli("OTP is 482913, call 98765 43210", "--redact")
+        self.assertEqual(code, 0)
+        self.assertEqual(out, "OTP is [code], call [phone]\n")
+        self.assertIn("masked", err)
+
+    def test_pii_cli_json(self):
+        code, out, _ = self.run_cli("rohan@okicici", "--pii", "--json")
+        self.assertEqual(json.loads(out), [{"line": 1, "kind": "upi", "value": "rohan@okicici"}])
+
+    def test_bad_keep(self):
+        with redirect_stderr(io.StringIO()):
+            self.assertEqual(self.run_cli("x", "--redact", "--keep", "nope")[0], 2)
+
+    def test_about_kind(self):
+        self.assertEqual(self.run_cli("a" * 140, "--kind", "about")[0], 1)
+        self.assertEqual(self.run_cli("a" * 139, "--kind", "about")[0], 0)
 
     def test_status_kind(self):
         self.assertEqual(self.run_cli("a" * 800, "--kind", "status")[0], 1)
